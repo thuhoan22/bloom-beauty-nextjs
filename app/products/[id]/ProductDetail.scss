@@ -1,0 +1,206 @@
+.product-detail-page {
+  padding: 40px 0;
+
+  .detail {
+    &-wrap {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    &-thumb {
+      position: relative;
+      width: 495px;
+    }
+
+    &-info {
+      flex: 1;
+      margin-left: 123px;
+
+      .text {
+        &-title {
+          font-size: 22px;
+          font-weight: 500;
+          color: #383838;
+        }
+
+        &-desc {
+          display: block;
+          margin-top: 20px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #697586;
+          line-height: 22px;
+        }
+
+        &-price {
+          display: block;
+          margin-top: 20px;
+          font-size: 16px;
+          font-weight: 500;
+          color: #383838;
+          line-height: 27px;
+        }
+
+        &-size {
+          display: block;
+          margin-top: 12px;
+          font-size: 14px;
+          font-weight: 400;
+          color: #697586;
+          line-height: 22px;
+        }
+
+        &-recommend {
+          margin-top: 12px;
+
+          &>strong {
+            font-size: 14px;
+            font-weight: 400;
+            color: #383838;
+            line-height: 20px;
+          }
+        }
+      }
+
+      .btn-add {
+        min-width: 245px;
+        margin-top: 30px;
+        padding: 10px 20px;
+        border: 0;
+        border-radius: 4px;
+        background: #F5A3B7;
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+        text-transform: capitalize;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .skin-type {
+    &-list {
+      display: flex;
+      margin-top: 6px;
+      gap: 10px;
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      &>span {
+        font-size: 14px;
+        font-weight: 400;
+        color: #697586;
+        line-height: 22px;
+      }
+    }
+  }
+
+  .more-info {
+    margin-top: 20px;
+
+    .accordion {
+      &-item {
+        margin-top: 12px;
+
+        &.is-open {
+          .box {
+            &-head {
+              &:after {
+                transform: translateY(-50%) rotate(180deg);
+              }
+              .btn-text {
+                background: rgba(176, 166, 189, .18);
+              }
+            }
+            &-content {
+              display: block;
+            }
+          }
+        }
+
+        .box {
+          &-head {
+            position: relative;
+            margin-bottom: 10px;
+            &:after {
+              position: absolute;
+              top: 50%;
+              right: 15px;
+              width: 20px;
+              height: 20px;
+              background: url(../../../public/images/svg/icon-arrow-down.svg) no-repeat;
+              background-size: 100% auto;
+              transform: translateY(-50%);
+              transition: transform .2s linear;
+              content: '';
+            }
+          }
+          &-content {
+            display: none;
+            margin-top: 10px;
+            padding-bottom: 20px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 22px;
+            color: #697586;
+          }
+        }
+
+        .btn-text {
+          display: flex;
+          position: relative;
+          width: 100%;
+          padding: 12px 20px;
+          border: none;
+          background: rgba(176, 166, 189, 0.1);
+          outline: none;
+
+          &>strong {
+            font-size: 14px;
+            font-weight: 600;
+            color: #383838;
+            line-height: 27px;
+            text-transform: uppercase;
+          }
+        }
+
+        .detail {
+          &-box {
+            &:not(:first-child) {
+              margin-top: 10px;
+            }
+            &-title {
+              font-size: 15px;
+              color: #383838;
+            }
+          }
+          &-list {
+            margin-top: 10px;
+            padding-left: 8px;
+          }
+          &-item {
+            position: relative;
+            padding-left: 12px;
+            &:not(:first-child) {
+              margin-top: 5px;
+            }
+            &:before {
+              position: absolute;
+              top: 9px;
+              left: 0;
+              width: 3px;
+              height: 3px;
+              border-radius: 50%;
+              background-color: #697586;
+              content: '';
+            }
+          }
+        }
+      }
+    }
+  }
+}

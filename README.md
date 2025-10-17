@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+
+
+
+## [My Note]
+Trong Next.js App Router (từ v13) thì có khái niệm Server Component và Client Component.
+- Trong thư mục app/, tất cả component mặc định là Server Component.
+- Điều này có nghĩa là component đó được render trên server, sau đó gửi HTML xuống client.
+
+Có những lúc cần component chạy ở client (trình duyệt), ví dụ:
+- Dùng hook của React (useState, useEffect, useContext, ...).
+- Dùng event handler (onClick, onChange, ...).
+- Dùng thư viện phụ thuộc vào DOM (như react-slick, swiper, chart.js, ...)
+==>phải khai báo "use client"; ở đầu file
