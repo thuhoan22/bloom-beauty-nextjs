@@ -6,6 +6,7 @@ export const products = [
     price: 32, 
     sale: 0,
     rating: 0,
+    category: "Cream - Gel",
     image: "/images/product-008.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
@@ -104,11 +105,12 @@ export const products = [
     price: 50, 
     sale: 0,
     rating: 4,
+    category: "Other",
     image: "/images/product-004.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["Combo to Dry", "Dryness"],
+      typeSkin: ["Combo to Dry", "Dryness", "Normal"],
       imageSlide: [
         "/images/product-004.jpg",
         "/images/product-005.jpg",
@@ -116,6 +118,82 @@ export const products = [
         "/images/product-010.jpg",
         "/images/product-011.jpg",
       ],
+      moreInfo: `
+        <ul class="accordion-list">
+          <li class="accordion-item is-open">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>WHAT MAKES IT GOOD</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-item">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>Ingredients</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-item">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>How to use</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      `
     }
   },
   { 
@@ -125,11 +203,12 @@ export const products = [
     price: 120, 
     sale: 20,
     rating: 4,
+    category: "Toner - Serum",
     image: "/images/product-003.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["Dryness"],
+      typeSkin: ["Dryness", "Normal"],
       imageSlide: [
         "/images/product-003.jpg",
         "/images/product-005.jpg",
@@ -137,6 +216,82 @@ export const products = [
         "/images/product-012.jpg",
         "/images/product-008.jpg",
       ],
+      moreInfo: `
+        <ul class="accordion-list">
+          <li class="accordion-item is-open">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>WHAT MAKES IT GOOD</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-item">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>Ingredients</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li class="accordion-item">
+            <div class="box-head">
+              <button type="button" class="btn-text"><strong>How to use</strong></button>
+            </div>
+            <div class="box-content">
+              <p class="text-overview">A clear, water-jelly cream with Cherry Blossom and Niacinamide that delivers a burst of hydration and glow for visibly brighter, dewy skin.</p>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+              <div class="detail-box">
+                <strong class="detail-box-title">Key Ingredients</strong>
+                <ul class="detail-list">
+                  <li class="detail-item">Cherry Blossom Flavonoids: visibly soothing</li>
+                  <li class="detail-item">Niacinamide: visibly brightening</li>
+                  <li class="detail-item">Sugar Beet Betaine: hydrating</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      `
     }
   },
   { 
@@ -146,11 +301,12 @@ export const products = [
     price: 36, 
     sale: 0,
     rating: 5,
+    category: "Toner - Serum",
     image: "/images/product-014.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["Combo to Dry"],
+      typeSkin: ["Dryness", "Sensitive"],
       imageSlide: [
         "/images/product-014.jpg",
         "/images/product-012.jpg",
@@ -167,11 +323,12 @@ export const products = [
     price: 20, 
     sale: 15,
     rating: 4.5,
+    category: "Cream - Gel",
     image: "/images/product-009.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
+      typeSkin: ["Oily", "Sensitive"],
       imageSlide: [
         "/images/product-009.jpg",
         "/images/product-002.jpg",
@@ -188,6 +345,7 @@ export const products = [
     price: 30, 
     sale: 0,
     rating: 4.5,
+    category: "Other",
     image: "/images/product-010.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
@@ -209,11 +367,12 @@ export const products = [
     price: 29, 
     sale: 0,
     rating: 5,
+    category: "Cream - Gel",
     image: "/images/product-012.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
+      typeSkin: ["Oily", "Sensitive"],
       imageSlide: [
         "/images/product-012.jpg",
         "/images/product-011.jpg",
@@ -230,6 +389,7 @@ export const products = [
     price: 32, 
     sale: 0,
     rating: 4,
+    category: "Toner - Serum",
     image: "/images/product-013.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
@@ -251,11 +411,12 @@ export const products = [
     price: 36, 
     sale: 0,
     rating: 4,
+    category: "Makeup remover",
     image: "/images/product-015.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
+      typeSkin: ["All Skin Types", "Combo to Dry", "Normal"],
       imageSlide: [
         "/images/product-015.jpg",
         "/images/product-005.jpg",
@@ -272,11 +433,12 @@ export const products = [
     price: 21, 
     sale: 18,
     rating: 5,
+    category: "Sunscreen",
     image: "/images/product-002.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",
       size: "50ml",
-      typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
+      typeSkin: ["Normal", "Sensitive", "Dryness"],
       imageSlide: [
         "/images/product-002.jpg",
         "/images/product-005.jpg",
@@ -293,6 +455,7 @@ export const products = [
     price: 40, 
     sale: 35,
     rating: 4.5,
+    category: "Cleanser",
     image: "/images/product-016.jpg",
     details: {
       fullDesc: "A gel moisturizer packed with glow-boosting Cherry Blossom Extracts, visibly brightening niacinamide, and hydrating betaine from sugar beets. Advanced with glycerin and Cherry Blossom flavanoids with visibly soothing and moisturizing benefits for skin that’s ready for makeup! Dermatologist tested.",

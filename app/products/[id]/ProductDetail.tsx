@@ -20,6 +20,8 @@ export default function ProductDetail({ id }: ProductDetailProps) {
     "All Skin Types": "/images/svg/icon-skin-all.svg",
     "Combo to Dry": "/images/svg/icon-skin-dry.svg",
     "Dryness": "/images/svg/icon-skin-dryness.svg",
+    "Sensitive": "/images/svg/icon-skin-dryness.svg",
+    "Normal": "/images/svg/icon-skin-dryness.svg",
   };
 
   const product = products.find((p) => p.id === id);
@@ -98,16 +100,18 @@ export default function ProductDetail({ id }: ProductDetailProps) {
               </ul>
             </div>
             <button
-              className="btn-add"
+              className="btn btn-add"
               // onClick={() => console.log("Add to cart:", product.id)}
               onClick={handleAddToCart}
             >
               Add to cart
             </button>
-            <div 
-              className="more-info"
-              dangerouslySetInnerHTML={{ __html: String(product.details.moreInfo) }}
-            />
+            {product.details?.moreInfo && (
+              <div 
+                className="more-info"
+                dangerouslySetInnerHTML={{ __html: String(product.details.moreInfo) }}
+              />
+            )}
           </div>
         </div>
         <RecentlyViewed />

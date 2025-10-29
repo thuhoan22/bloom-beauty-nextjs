@@ -48,7 +48,7 @@ a {
 }
 .wrap {
   width: 100%;
-  height: 100%;
+  height: auto;
   background-color: #F9FAFC;
 }
 ul,li {
@@ -58,4 +58,26 @@ button {
   outline: none;
   border: none;
   cursor: pointer;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #252525;
+  border-radius: 4px;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  color: #383838;
+  line-height: 21px;
+  text-transform: capitalize;
+  transition: .2s;
+}
+.btn:hover {
+  background-color: #f5a3b7;
+  border-color: #f5a3b7;
+  color: #fff;
 }
