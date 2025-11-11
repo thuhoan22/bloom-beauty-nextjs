@@ -1,0 +1,257 @@
+.inner {
+  width: 1216px;
+  margin: 0 auto;
+}
+
+.wrap {
+  width: 100%;
+  height: auto;
+  background-color: #F9FAFC;
+}
+
+main {
+  padding: 80px 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.blind,
+caption span,
+legend {
+  overflow: hidden;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  clip: rect(0, 0, 0, 0);
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 4px;
+  text-transform: capitalize;
+  transition: .2s;
+
+  &-primary {
+    padding: 10px;
+    border: 1px solid #252525;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    color: #383838;
+    line-height: 21px;
+  }
+
+  &-secondary {
+    padding: 10px 20px;
+    border: 0;
+    background-color: #F5A3B7;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  &-arrow {
+    position: relative;
+    width: auto;
+    padding: 10px 24px 10px 0px;
+    border: 0;
+    background-color: transparent;
+    text-transform: capitalize;
+
+    &:after {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      width: 10px;
+      height: 6px;
+      background-image: url(../../public/images/svg/icon-arrow.svg);
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      transition: .2s;
+      transform: translate(-50%, -50%);
+      content: '';
+    }
+
+    &.btn-arrow-white {
+      color: #fff;
+
+      &:after {
+        background-image: url(../../public/images/svg/icon-arrow-white.svg);
+      }
+    }
+
+    &:hover {
+      color: #F5A3B7;
+
+      &:after {
+        background-image: url(../../public/images/svg/icon-arrow-pink.svg);
+      }
+    }
+  }
+
+  &:not(.btn-arrow) {
+    &:hover {
+      border-color: #383838;
+      background-color: #383838;
+      color: #fff;
+    }
+
+    &:focus,
+    &:active {
+      box-shadow: inset 2px 2px 0px #3e3e3e;
+    }
+  }
+}
+
+.product-section {
+  .box {
+    &-head {
+      text-align: center;
+
+      .text-title {
+        position: relative;
+        padding: 0 60px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #383838;
+        line-height: 36px;
+        text-transform: uppercase;
+
+        &:before,
+        &:after {
+          position: absolute;
+          top: 50%;
+          width: 50px;
+          height: 13px;
+          transform: translateY(-50%);
+          content: '';
+        }
+
+        &:after {
+          right: 0;
+          background: url(../../public/images/bloom-decor-right.png) no-repeat;
+          background-size: 100% auto;
+        }
+
+        &:before {
+          left: 0;
+          background: url(../../public/images/bloom-decor-left.png) no-repeat;
+          background-size: 100% auto;
+        }
+      }
+
+      .btn-box {
+        display: block;
+        margin-top: 4px;
+      }
+
+      .btn-all {
+        display: inline-flex;
+        font-size: 18px;
+        font-weight: 400;
+        color: #697586;
+        line-height: 27px;
+        text-transform: capitalize;
+        transition: color .2s;
+
+        &:hover {
+          color: #f5a3b7;
+        }
+      }
+    }
+
+    &-content {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 30px;
+      gap: 20px;
+    }
+  }
+}
+
+.swiper {
+  &.swiper-custom {
+    position: static;
+
+    .swiper {
+      &-button {
+
+        &-next,
+        &-prev {
+          width: 40px;
+          height: 40px;
+          margin-top: -75px;
+          border-radius: 50px;
+          background-color: #bfb9cf;
+
+          &.swiper-button-disabled {
+            opacity: .4;
+          }
+
+          svg,
+          path {
+            display: none;
+          }
+
+          &::after {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 10px;
+            height: 18px;
+            background: url(../../public/images/svg/icon-arrow-right.svg) no-repeat;
+            background-size: 100% auto;
+            transform: translate(-50%, -50%);
+            content: '';
+          }
+        }
+
+        &-next {
+          right: -22px;
+
+          &::after {
+            margin: 1px 0 0 2px;
+          }
+        }
+
+        &-prev {
+          left: -22px;
+
+          &::after {
+            margin: -1px 0 0 -2px;
+            transform: translate(-50%, -50%) rotate(180deg);
+          }
+        }
+      }
+
+      &-pagination {
+        bottom: 0;
+        font-size: 0;
+
+        &-bullet {
+          width: 10px;
+          height: 10px;
+          margin: 0 4px;
+          background-color: #8498af;
+
+          &-active {
+            background-color: #bfb9cf;
+          }
+        }
+      }
+    }
+  }
+}

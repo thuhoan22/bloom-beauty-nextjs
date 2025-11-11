@@ -17,11 +17,16 @@
 
     .text {
       &-title {
+        display: -webkit-box;
+        overflow: hidden;
         font-size: 16px;
         font-weight: 500;
         line-height: 20px;
         color: #383838;
         text-transform: capitalize;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical
       }
 
       &-desc {
@@ -40,6 +45,7 @@
 
       &-price {
         display: flex;
+        align-items: center;
         margin-top: 10px;
         font-size: 16px;
         font-weight: 400;

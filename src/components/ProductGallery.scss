@@ -2,33 +2,6 @@
   overflow: hidden;
 
   .swiper {
-    position: static;
-
-    &-button {
-
-      &-next,
-      &-prev {
-        margin-top: -75px;
-        border-radius: 50px;
-        background-color: #c0bdc5;
-
-        svg,
-        path {
-          width: 11px;
-          height: 19px;
-          fill: #fff;
-        }
-      }
-
-      &-next {
-        right: -22px;
-      }
-
-      &-prev {
-        left: -22px;
-      }
-    }
-
     .thumb-image {
       position: relative;
       width: 84px;

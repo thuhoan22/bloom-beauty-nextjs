@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { products } from "@/data/products";
 
 // Giới hạn số lượng sản phẩm lưu
-const MAX_RECENT = 5;
+const MAX_RECENT = 4;
 
 export function useRecentlyViewed() {
   const [viewedIds, setViewedIds] = useState<number[]>([]);

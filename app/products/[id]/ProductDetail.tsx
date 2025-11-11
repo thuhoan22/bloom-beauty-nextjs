@@ -16,13 +16,15 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ id }: ProductDetailProps) {
-  const skinIcons: Record<string, string> = {
-    "All Skin Types": "/images/svg/icon-skin-all.svg",
-    "Combo to Dry": "/images/svg/icon-skin-dry.svg",
-    "Dryness": "/images/svg/icon-skin-dryness.svg",
-    "Sensitive": "/images/svg/icon-skin-dryness.svg",
-    "Normal": "/images/svg/icon-skin-dryness.svg",
-  };
+  // const skinIcons: Record<string, string> = {
+  //   "All Skin Types": "/images/svg/icon-skin-all.svg",
+  // };
+
+  // const getSkinIcon = (skinType: string) =>
+  //   skinIcons[skinType] || "/images/svg/icon-skin-type.svg";
+
+  const getSkinIcon = (skinType: string) =>
+  skinType === "All Skin Types" ? "/images/svg/icon-skin-all.svg" : "/images/svg/icon-skin-type.svg";
 
   const product = products.find((p) => p.id === id);
 
@@ -89,7 +91,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
                 {product.details.typeSkin.map((type, index) => (
                   <li className="skin-type-item" key={index}>
                     <Image 
-                      src={skinIcons[type] || ''}
+                      src={getSkinIcon(type)}
                       alt={type}
                       width={20}
                       height={20}
@@ -100,7 +102,7 @@ export default function ProductDetail({ id }: ProductDetailProps) {
               </ul>
             </div>
             <button
-              className="btn btn-add"
+              className="btn btn-secondary btn-add"
               // onClick={() => console.log("Add to cart:", product.id)}
               onClick={handleAddToCart}
             >

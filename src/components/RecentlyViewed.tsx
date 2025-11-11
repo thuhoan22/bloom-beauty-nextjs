@@ -11,7 +11,7 @@ export default function RecentlyViewed() {
   if (viewedProducts.length === 0) return null;
 
   return (
-    <div className="recently-viewed">
+    <div className="product-section recently-viewed">
       <div className="box-head">
         <strong className="text-title">Recently Viewed Products</strong>
       </div>

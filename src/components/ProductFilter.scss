@@ -28,6 +28,10 @@
       }
     }
 
+    &-group {
+      margin-top: 12px;
+    }
+
     &-group-item {
       border-bottom: 1px solid #DFE1E3;
       background: #fff;
@@ -120,10 +124,10 @@
   }
 
   .text-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     color: #383838;
-    line-height: 36px;
+    line-height: 32px;
     text-transform: uppercase;
   }
 

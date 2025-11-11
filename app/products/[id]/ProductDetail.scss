@@ -1,10 +1,10 @@
 .product-detail-page {
-  padding: 40px 0;
-
+  
   .detail {
     &-wrap {
       display: flex;
       align-items: flex-start;
+      padding: 60px 0;
     }
 
     &-thumb {
@@ -63,17 +63,8 @@
       }
 
       .btn-add {
-        min-width: 245px;
+        width: 245px;
         margin-top: 30px;
-        padding: 10px 20px;
-        border: 0;
-        border-radius: 4px;
-        background: #F5A3B7;
-        font-size: 14px;
-        font-weight: 700;
-        color: #fff;
-        text-transform: capitalize;
-        cursor: pointer;
       }
     }
   }
@@ -147,6 +138,12 @@
             font-size: 14px;
             line-height: 22px;
             color: #697586;
+            &> .text-overview {
+              margin-top: 12px;
+              &:first-child {
+                margin-top: 0;
+              }
+            }
           }
         }
 

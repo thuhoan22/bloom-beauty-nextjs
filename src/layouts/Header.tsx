@@ -3,6 +3,7 @@
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+
 import "./Header.scss";
 
 export default function Header() {
@@ -12,8 +13,9 @@ export default function Header() {
   const navItems = [
     { href: "/products", label: "SHOP ALL" },
     { href: "/best-sell", label: "BESTSELLERS" },
-    { href: "/blog", label: "BLOG" },
+    { href: "/blogs", label: "BLOG" },
     { href: "/about", label: "ABOUT US" },
+    { href: "/cart", label: "CART" },
   ];
 
   return (
@@ -34,7 +36,7 @@ export default function Header() {
           </nav>
           <div className="group-action">
             <Link href="/" className="group-action-item">ACOUNT</Link>
-            <Link href="/" className="group-action-item group-action-cart">
+            <Link href="/cart" className="group-action-item group-action-cart">
               <span>CART</span>
               <span className="badge">{cartCount}</span>
             </Link>

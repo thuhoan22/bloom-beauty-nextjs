@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { products } from "@/data/products";
 import ProductCard from "@/components/ProductCard";
 import ProductFilter from "@/components/ProductFilter";
+import Pagination from "@/components/Pagination"; 
+
 import "./ProductList.scss";
 
 interface FilterValues {
@@ -13,6 +15,7 @@ interface FilterValues {
 }
 
 export default function ProductList() {
+  //[S] Lọc:
   // Lưu filter mà user đã chọn
   const [filters, setFilters] = useState<FilterValues>({
     productType: [],
@@ -30,6 +33,7 @@ export default function ProductList() {
   const handleApplyFilters = (newFilters: FilterValues) => {
     console.log("Filters applied:", newFilters);
     setFilters(newFilters);
+    setCurrentPage(1); // reset về trang đầu khi lọc
   };
 
   // Lọc sản phẩm dựa trên filters
@@ -51,15 +55,30 @@ export default function ProductList() {
       if (
         (filters.priceRange === "Under $25" && price >= 25) ||
         (filters.priceRange === "$25 - $50" && (price < 25 || price > 50)) ||
-        (filters.priceRange === "$50 - $100" && (price > 50 || price >= 100)) ||
-        (filters.priceRange === "Over $100" && (price > 100))
+        (filters.priceRange === "$50 - $100" && (price < 50 || price > 100)) ||
+        (filters.priceRange === "Over $100" && price <= 100)
       ) {
         return false;
       }
     }
-
     return true;
   });
+  //[E] Lọc
+
+  // Phân trang:
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
+
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+
+  // Phân chia danh sách theo trang
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
+  //[E] Phân trang
 
   return (
     <main className="main-content product-page">
@@ -82,8 +101,8 @@ export default function ProductList() {
               </div>
             </div>
             <div className="product-list">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((item) => (
+              {currentProducts.length > 0 ? (
+                currentProducts.map((item) => (
                   <ProductCard 
                     key={item.id}
                     {...item}
@@ -93,6 +112,13 @@ export default function ProductList() {
                 <p className="no-result">No products found</p>
               )}
             </div>
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
+              />
+            )}
           </div>
         </div>
       </div>

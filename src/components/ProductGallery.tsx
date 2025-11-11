@@ -27,7 +27,7 @@ export default function ProductGallery({ imageSlide, alt }: ProductGalleryProps)
         navigation
         modules={[Navigation, Thumbs]}
         thumbs={{ swiper: thumbsSwiper }}
-        className="gallery-main"
+        className="gallery-main swiper-custom"
       >
         {imageSlide.map((src, index) => (
           <SwiperSlide key={index}>

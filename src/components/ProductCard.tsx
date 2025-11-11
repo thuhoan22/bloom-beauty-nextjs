@@ -66,7 +66,7 @@ export default function ProductCard({ id, name, desc, price, sale, rating, image
         </div>
         <button
           onClick={handleAddToCart}
-          className="btn btn-add"
+          className="btn btn-primary btn-add"
         >
           Add to cart
         </button>

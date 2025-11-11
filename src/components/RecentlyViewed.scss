@@ -1,49 +1,11 @@
 .recently-viewed {
   margin-top: 100px;
 
-  .box {
-    &-head {
-      text-align: center;
-      .text-title {
-        position: relative;
-        padding: 0 60px;
-        font-size: 24px;
-        font-weight: 700;
-        color: #383838;
-        line-height: 36px;
-        text-transform: uppercase;
-        &:before,
-        &:after {
-          position: absolute;
-          top: 50%;
-          width: 50px;
-          height: 13px;
-          transform: translateY(-50%);
-          content: '';
-        }
-        &:after {
-          right: 0;
-          background: url(../../public/images/bloom-decor-right.png) no-repeat;
-          background-size: 100% auto;
-        }
-
-        &:before {
-          left: 0;
-          background: url(../../public/images/bloom-decor-left.png) no-repeat;
-          background-size: 100% auto;
-        }
-      }
-    }
-    &-content {
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 40px;
-      gap: 20px;
-      .card {
-        width: 25%;
-        flex: 1;
-      }
+  .box-content {
+    margin-top: 40px;
+    .card {
+      width: 25%;
+      flex: 1;
     }
   }
-
 }

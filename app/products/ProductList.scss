@@ -1,8 +1,8 @@
 .product-page {
-  padding: 40px 0;
   .box-content {
     display: flex;
     align-items: flex-start;
+    padding: 40px 0;
   }
   .product {
     &-area {
@@ -12,7 +12,17 @@
     &-list {
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 20px;
+      &:has(.card) {
+        justify-content: flex-start;
+      }
+      .no-result {
+        padding-top: 20%;
+        font-size: 16px;
+        font-weight: 500;
+        color: #383838;
+      }
     }
     &-sort {
       display: flex;

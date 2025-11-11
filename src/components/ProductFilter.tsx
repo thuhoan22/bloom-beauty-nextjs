@@ -129,7 +129,7 @@ export default function ProductFilter({ onApply }: { onApply: (filters: FilterVa
         })}
       </div>
       <button 
-        className="btn btn-filter" 
+        className="btn btn-primary btn-filter" 
         onClick={() => onApply(filters)} // gọi callback từ cha
       >
         Apply
