@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { CartProvider } from "../src/context/CartContext";
+import { Toaster } from "react-hot-toast";
 
 import Header from "../src/layouts/Header";
 import Footer from "../src/layouts/Footer";
@@ -38,6 +39,16 @@ export default function RootLayout({
             <Footer/>
           </div>
         </CartProvider>
+        <Toaster
+          position="top-right"
+          toastOptions={{
+            duration: 2000,
+            style: {
+              background: "#333",
+              color: "#fff",
+            },
+          }}
+        />
       </body>
     </html>
   );

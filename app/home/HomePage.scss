@@ -21,7 +21,7 @@
     z-index: 2;
     width: 1250px;
     height: 100%;
-    background-image: url(../../public/images/img-keyvisual.png);
+    background-image: url(/images/img-keyvisual.png);
     background-size: cover;
     background-repeat: no-repeat;
     pointer-events: none;
@@ -239,7 +239,7 @@
         z-index: -1;
         width: 163px;
         height: 212px;
-        background: url(../../public/images/img-decor-bloom.png) no-repeat;
+        background: url(/images/img-decor-bloom.png) no-repeat;
         content: '';
       }
     }

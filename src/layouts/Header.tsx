@@ -15,7 +15,7 @@ export default function Header() {
     { href: "/best-sell", label: "BESTSELLERS" },
     { href: "/blogs", label: "BLOG" },
     { href: "/about", label: "ABOUT US" },
-    { href: "/cart", label: "CART" },
+    // { href: "/cart", label: "CART" },
   ];
 
   return (
@@ -35,7 +35,7 @@ export default function Header() {
             ))}
           </nav>
           <div className="group-action">
-            <Link href="/" className="group-action-item">ACOUNT</Link>
+            <Link href="/account" className="group-action-item">ACOUNT</Link>
             <Link href="/cart" className="group-action-item group-action-cart">
               <span>CART</span>
               <span className="badge">{cartCount}</span>

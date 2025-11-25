@@ -13,17 +13,6 @@ main {
   padding: 80px 0;
 }
 
-ul,
-li {
-  list-style: none;
-}
-
-button {
-  border: none;
-  cursor: pointer;
-  outline: none;
-}
-
 .blind,
 caption span,
 legend {
@@ -77,7 +66,7 @@ legend {
       right: 0;
       width: 10px;
       height: 6px;
-      background-image: url(../../public/images/svg/icon-arrow.svg);
+      background-image: url(/images/svg/icon-arrow.svg);
       background-size: 100% auto;
       background-repeat: no-repeat;
       transition: .2s;
@@ -89,7 +78,7 @@ legend {
       color: #fff;
 
       &:after {
-        background-image: url(../../public/images/svg/icon-arrow-white.svg);
+        background-image: url(/images/svg/icon-arrow-white.svg);
       }
     }
 
@@ -97,7 +86,7 @@ legend {
       color: #F5A3B7;
 
       &:after {
-        background-image: url(../../public/images/svg/icon-arrow-pink.svg);
+        background-image: url(/images/svg/icon-arrow-pink.svg);
       }
     }
   }
@@ -142,13 +131,13 @@ legend {
 
         &:after {
           right: 0;
-          background: url(../../public/images/bloom-decor-right.png) no-repeat;
+          background: url(/images/bloom-decor-right.png) no-repeat;
           background-size: 100% auto;
         }
 
         &:before {
           left: 0;
-          background: url(../../public/images/bloom-decor-left.png) no-repeat;
+          background: url(/images/bloom-decor-left.png) no-repeat;
           background-size: 100% auto;
         }
       }
@@ -212,7 +201,7 @@ legend {
             left: 50%;
             width: 10px;
             height: 18px;
-            background: url(../../public/images/svg/icon-arrow-right.svg) no-repeat;
+            background: url(/images/svg/icon-arrow-right.svg) no-repeat;
             background-size: 100% auto;
             transform: translate(-50%, -50%);
             content: '';

@@ -1,40 +1,81 @@
 "use client";
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import toast from "react-hot-toast";
 
+interface CartItem {
+  id: number;
+  quantity: number;
+}
 interface CartContextType {
+  cartItems: CartItem[];
   cartCount: number;
   addToCart: (id: number) => void;
+  updateItemQuantity: (id: number, quantity: number) => void;
+  removeFromCart: (id: number) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
-  const [cartCount, setCartCount] = useState<number>(0);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
   // 1. Đọc từ localStorage khi component mount
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedCount = localStorage.getItem("cartCount");
-      if (storedCount) setCartCount(Number(storedCount));
+      const stored  = localStorage.getItem("cartItems");
+      if (stored) setCartItems(JSON.parse(stored));
     }
   }, []);
 
   // 2. Mỗi khi cartCount thay đổi, cập nhật localStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
-      localStorage.setItem("cartCount", String(cartCount));
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
     }
-  }, [cartCount]);
+  }, [cartItems]);
 
   // 3. Hàm thêm sản phẩm (vẫn giữ nguyên)
   const addToCart = (id: number) => {
-    console.log("Added product:", id);
-    setCartCount((prev) => prev + 1);
+    const exist = cartItems.find((item) => item.id === id);
+
+    if (exist) {
+      toast.success("Increased product quantity!");
+      setCartItems(prev =>
+        prev.map(item =>
+          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+        )
+      );
+    } else {
+      toast.success("Added to cart!");
+      setCartItems(prev => [...prev, { id: id, quantity: 1 }]);
+    }
+  };
+
+  // Update quantity
+  const updateItemQuantity = (id: number, quantity: number) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity } : item
+      )
+    );
+    toast.success("Quantity updated!");
+  };
+
+  // Remove item
+  const removeFromCart = (id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+    toast.success("Removed from cart!");
   };
 
   return (
-    <CartContext.Provider value={{ cartCount, addToCart }}>
+    <CartContext.Provider value={{ 
+      cartItems, 
+      cartCount: cartItems.reduce((sum, i) => sum + i.quantity, 0),
+      addToCart,
+      updateItemQuantity,
+      removeFromCart
+    }}>
       {children}
     </CartContext.Provider>
   );

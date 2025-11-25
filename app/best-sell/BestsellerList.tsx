@@ -6,7 +6,7 @@ import ProductCard from "@/components/ProductCard";
 import ProductFilter from "@/components/ProductFilter";
 import Pagination from "@/components/Pagination"; 
 
-import "./ProductList.scss";
+import "../products/ProductList.scss";
 
 interface FilterValues {
   productType: string[];
@@ -14,7 +14,13 @@ interface FilterValues {
   priceRange: string | null;
 }
 
-export default function ProductList() {
+export default function BestsellerList() {
+  const bestSellers = products
+    .filter(p => p.rating >= 4.5) // chỉ lấy sp rating cao
+    .sort((a, b) => b.rating - a.rating || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // sắp xếp giảm dần
+  
+  if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers
+
   //[S] Lọc:
   // Lưu filter mà user đã chọn
   const [filters, setFilters] = useState<FilterValues>({
@@ -37,7 +43,7 @@ export default function ProductList() {
   };
 
   // Lọc sản phẩm dựa trên filters
-  const filteredProducts = products.filter((p) => {
+  const filteredProducts = bestSellers.filter((p) => {
     // Lọc theo productType
     if (filters.productType.length > 0 && !filters.productType.includes(p.category)) {
       return false;
@@ -115,72 +121,72 @@ export default function ProductList() {
   //[E] Phân trang
 
   return (
-    <main className="main-content product-page">
-      <div className="inner">
-        <div className="box-content">
-          <ProductFilter onApply={handleApplyFilters} />
-          <div className="product-area">
-            <div className="product-sort">
-              <span className="text-total">
-                {isFiltered ? (
-                  <>
-                    <em>{filteredProducts.length}</em> / {products.length} PRODUCT
-                  </>
-                ) : (
-                  <><em>{products.length}</em> PRODUCT</>
+  <main className="main-content product-page">
+    <div className="inner">
+      <div className="box-content">
+        <ProductFilter onApply={handleApplyFilters} />
+        <div className="product-area">
+          <div className="product-sort">
+            <span className="text-total">
+              {isFiltered ? (
+                <>
+                  <em>{filteredProducts.length}</em> / {bestSellers.length} PRODUCT
+                </>
+              ) : (
+                <><em>{bestSellers.length}</em> PRODUCT</>
+              )}
+            </span>
+            <div className="sort-area">
+              <span className="text">Sort by</span>
+              <div className={`select-box ${isOpen ? "is-open" : ""}`}>
+                <button 
+                  type="button" 
+                  className="btn-select" 
+                  onClick={() => setIsOpen(!isOpen)}
+                >
+                  <span className="select-value">{sortOption}</span>
+                </button>
+                {isOpen && (
+                  <ul className="select-list">
+                    {options.map((opt) => (
+                      <li
+                        key={opt}
+                        className="select-item"
+                        onClick={() => {
+                          setSortOption(opt);
+                          setIsOpen(false);
+                        }}
+                      >
+                        {opt}
+                      </li>
+                    ))}
+                  </ul>
                 )}
-              </span>
-              <div className="sort-area">
-                <span className="text">Sort by</span>
-                <div className={`select-box ${isOpen ? "is-open" : ""}`}>
-                  <button 
-                    type="button" 
-                    className="btn-select" 
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
-                    <span className="select-value">{sortOption}</span>
-                  </button>
-                  {isOpen && (
-                    <ul className="select-list">
-                      {options.map((opt) => (
-                        <li
-                          key={opt}
-                          className="select-item"
-                          onClick={() => {
-                            setSortOption(opt);
-                            setIsOpen(false);
-                          }}
-                        >
-                          {opt}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
               </div>
             </div>
-            <div className="product-list">
-              {currentProducts.length > 0 ? (
-                currentProducts.map((item) => (
-                  <ProductCard 
-                    key={item.id}
-                    {...item}
-                  />
-                ))
-              ) : (
-                <p className="no-result">No products found</p>
-              )}
-            </div>
-            {totalPages > 1 && (
-              <Pagination
-                currentPage={currentPage}
-                totalPages={totalPages}
-                onPageChange={setCurrentPage}
-              />
+          </div>
+          <div className="product-list">
+            {currentProducts.length > 0 ? (
+              currentProducts.map((item) => (
+                <ProductCard 
+                  key={item.id}
+                  {...item}
+                />
+              ))
+            ) : (
+              <p className="no-result">No products found</p>
             )}
           </div>
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          )}
         </div>
       </div>
-    </main>
-  );
+    </div>
+  </main>
+  )
 }

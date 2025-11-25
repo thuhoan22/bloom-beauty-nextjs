@@ -40,10 +40,87 @@
       }
       .sort-area {
         display: flex;
+        align-items: center;
+        gap: 10px;
         .text {
           font-size: 14px;
           font-weight: 500;
           color: #697586;
+        }
+
+        .btn-select {
+          position: relative;
+          background-color: transparent;
+          min-width: 160px;
+          padding: 6px 34px 6px 16px;
+          border-radius: 4px;
+          background: #fff;
+          border: 1px solid #98a4b5;
+          text-align: left;
+          &:after {
+            position: absolute;
+            top: 50%;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            background: url(/images/svg/icon-arrow-down.svg) no-repeat;
+            background-size: 100% auto;
+            transition: .2s linear;
+            transform: translateY(-50%);
+            content: '';
+          }
+        }
+
+
+
+        .select {
+          &-box {
+            position: relative;
+            &.is-open {
+              .btn-select {
+                &:after {
+                  transform: translateY(-50%) rotate(180deg);
+                }
+              }
+
+            }
+          }
+
+          &-list {
+            // display: none;
+            position: absolute;
+            top: 36px;
+            left: 0;
+            right: 0;
+            z-index: 10;
+            padding: 10px 0;
+            background-color: #fff;
+            border: 1px solid #98a4b5;
+            border-radius: 4px;
+          }
+
+          &-item {
+            padding: 4px 16px;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            color: #383838;
+            transition: background .2s;
+            cursor: pointer;
+            &:not(:first-child) {
+              margin-top: 4px;
+            }
+            &:hover {
+              background-color: #f5f5f5;
+            }
+          }
+
+          &-value {
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 21px;
+            color: #383838;
+          }
         }
       }
     }
