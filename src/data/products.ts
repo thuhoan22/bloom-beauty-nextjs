@@ -648,9 +648,9 @@ export const products = [
       size: "200ml",
       typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
       imageSlide: [
+        "/images/product-025.webp",
         "/images/product-023.webp",
         "/images/product-022.webp",
-        "/images/product-025.webp",
         "/images/product-021.png",
         "/images/product-024.webp",
       ],
@@ -671,7 +671,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
       imageSlide: [
-        "/images/product-023.webp",
+        "/images/product-011.jpg",
         "/images/product-022.webp",
         "/images/product-025.webp",
         "/images/product-021.png",
@@ -694,7 +694,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
       imageSlide: [
-        "/images/product-023.webp",
+        "/images/product-005.jpg",
         "/images/product-022.webp",
         "/images/product-025.webp",
         "/images/product-021.png",
@@ -717,7 +717,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
       imageSlide: [
-        "/images/product-023.webp",
+        "/images/product-018.jpg",
         "/images/product-022.webp",
         "/images/product-025.webp",
         "/images/product-024.webp",
@@ -740,7 +740,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["All Skin Types", "Combo to Dry", "Dryness"],
       imageSlide: [
-        "/images/product-025.webp",
+        "/images/product-006.jpg",
         "/images/product-024.webp",
         "/images/product-023.webp",
         "/images/product-022.webp",
@@ -763,7 +763,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["Normal", "Sensitive", "Dryness"],
       imageSlide: [
-        "/images/product-025.webp",
+        "/images/product-026.png",
         "/images/product-021.png",
         "/images/product-023.webp",
         "/images/product-022.webp",
@@ -786,7 +786,7 @@ export const products = [
       size: "200ml",
       typeSkin: ["Normal", "Sensitive", "Dryness"],
       imageSlide: [
-        "/images/product-024.webp",
+        "/images/product-027.jpg",
         "/images/product-022.webp",
         "/images/product-023.webp",
         "/images/product-025.webp",

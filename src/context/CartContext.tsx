@@ -35,7 +35,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [cartItems]);
 
-  // 3. Hàm thêm sản phẩm (vẫn giữ nguyên)
+  // 3. Hàm thêm sản phẩm
   const addToCart = (id: number) => {
     const exist = cartItems.find((item) => item.id === id);
 

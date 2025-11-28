@@ -27,6 +27,7 @@
     &-sort {
       display: flex;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 28px;
       .text-total {
         font-size: 14px;
@@ -87,7 +88,6 @@
           }
 
           &-list {
-            // display: none;
             position: absolute;
             top: 36px;
             left: 0;

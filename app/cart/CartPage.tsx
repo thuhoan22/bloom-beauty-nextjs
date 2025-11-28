@@ -130,7 +130,7 @@ export default function CartPage() {
                 </li>
               </ul>
               <button type="button" className="btn btn-secondary btn-checkout">Proceed to Checkout</button>
-              <Link href="/" className="btn-continue-shoping">Continue Shopping</Link>
+              <Link href="/products" className="btn-continue-shoping" target="_blank">Continue Shopping</Link>
             </div>
           </div>
         </div>
