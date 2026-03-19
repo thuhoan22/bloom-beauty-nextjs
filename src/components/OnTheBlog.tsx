@@ -1,7 +1,8 @@
 "use client";
 
+import { useState, useEffect  } from "react";
 import Link from "next/link";
-import { blogs } from "@/data/blogs";
+import { getBlogs } from "@/lib/blog.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import BlogCard from "./BlogCard";
@@ -13,6 +14,12 @@ import "swiper/css/thumbs";
 // import "./OnTheBlog.scss";
 
 export default function OnTheBlog() {
+  const [blogs, setBlogs] = useState<any[]>([]);
+  
+  useEffect(() => {
+    getBlogs().then(setBlogs);
+  }, []);
+
   const blog = blogs
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
     .slice(0, 8);

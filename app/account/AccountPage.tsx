@@ -81,8 +81,8 @@ export default function AccountPage() {
   return (
     <main className="main-content account-page">
       <div className="inner">
-        <div className="box-content">
-          <div className="account-box-left">
+        <div className="box-content box-content-sidebar">
+          <div className="box-sidebar account-left">
             <h2 className="text-title">Account</h2>
             <ul className="navigation-area">
               {menuItems.map(item => (
@@ -133,7 +133,7 @@ export default function AccountPage() {
               ))}
             </ul>
           </div>
-          <div className="account-box-right">
+          <div className="box-sidebar-panel account-right">
             {activeComponent || <p>Chọn một mục để xem chi tiết.</p>}
           </div>
         </div>

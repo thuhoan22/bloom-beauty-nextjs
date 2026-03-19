@@ -3,8 +3,10 @@
 export default function AccountContact() {
   return (
     <>
-      <h3 className="text-title">Contact information</h3>
-      <div className="info-main">
+      <div className="panel-head">
+        <h3 className="text-title">Contact information</h3>
+      </div>
+      <div className="panel-info">
         <ul className="info-list">
           <li className="info-item">
             <label htmlFor="mail" className="label">Mail</label>

@@ -1,6 +1,7 @@
 "use client"
 
-import { products } from "@/data/products";
+import { useState, useEffect  } from "react";
+import { getProducts } from "@/lib/product.api";
 import { useCart } from "@/context/CartContext";
 import Link from "next/link";
 import Image from "next/image";
@@ -13,7 +14,12 @@ interface CartItem {
 }
 
 export default function CartPage() {
+  const [products, setProducts] = useState<any[]>([]);
   const { cartItems, updateItemQuantity, removeFromCart } = useCart();
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
 
   const cartData = cartItems.map((cartItem) => {
     const product = products.find((p) => p.id === cartItem.id);

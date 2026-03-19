@@ -1,11 +1,17 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import { products } from "@/data/products";
 
 export default function AccountOrder({ filter }: { filter: string }) {
   const [visibleCount, setVisibleAcount] = useState(3);
+
+  const [products, setProducts] = useState<any[]>([]);
+  useEffect(() => {
+    fetch("/api/products")
+      .then(res => res.json())
+      .then(data => setProducts(data.data));
+  }, []);
 
   const total = products.length;
   const remaining = total - visibleCount;
@@ -14,8 +20,10 @@ export default function AccountOrder({ filter }: { filter: string }) {
   }
   return (
     <>
-      <h3 className="text-title">You orders <span>({filter})</span></h3>
-      <div className="info-main">
+      <div className="panel-head">
+        <h3 className="text-title">You orders <span>({filter})</span></h3>
+      </div>
+      <div className="panel-info">
         <ul className="order-list">
           <li className="order-item is-cancel">
             <div className="order-head">

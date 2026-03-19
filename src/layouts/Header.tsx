@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
@@ -11,8 +12,14 @@ import ProductCard from "@/components/ProductCard";
 import "./Header.scss";
 
 export default function Header() {
+  const [products, setProducts] = useState<any[]>([]);
   const { cartCount } = useCart();
   const pathname = usePathname();
+
+  // fetch data
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
 
   const navItems = [
     { href: "/products", label: "SHOP ALL" },

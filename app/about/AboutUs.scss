@@ -1,0 +1,241 @@
+.about-page {
+  padding-bottom: 0;
+
+  .section {
+    padding: 180px 0;
+
+    &-head {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &-content {
+      margin-top: 48px;
+    }
+
+    .text {
+      &-title {
+        display: block;
+        margin-bottom: 40px;
+        font-weight: 500;
+        font-size: 48px;
+        line-height: 1;
+        color: #fff;
+      }
+
+      &-desc {
+        display: block;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        line-height: 1.2;
+        color: #fff;
+
+        & + .text-desc {
+          margin-top: 30px;
+        }
+      }
+    }
+  }
+
+  .key-visual {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 80px);
+    background: url(/images/about-001.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    &-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100%;
+      padding: 0 50px;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      text-align: center;
+    }
+
+    &-title {
+      font-weight: 500;
+      font-size: 95px;
+      line-height: 1.2;
+      color: #fff;
+    }
+  }
+
+  .our {
+    &-born {
+      background-color: #000;
+
+      .image {
+        position: relative;
+        height: 800px;
+
+        img {
+          display: block;
+        }
+      }
+
+      .info {
+        margin-top: 48px;
+      }
+
+      .text-desc {
+        text-align: center;
+      }
+    }
+
+    &-mantra {
+      background: linear-gradient(200deg, #dcccb3, #fdde11);
+
+      .section-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+
+        .text-desc {
+          .text {
+            &-italic {
+              font-family: 'Caveat', sans-serif;
+              font-weight: 600;
+              font-size: 54px;
+            }
+            &-uppercase {
+              font-style: normal;
+              font-weight: 500;
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+
+      .item-group {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        gap: 30px;
+
+        &:first-child {
+          .thumb {
+            position: absolute;
+            width: 300px;
+            height: 326px;
+
+            &-01 {
+              top: 0;
+              left: -145px;
+              z-index: 2;
+            }
+
+            &-02 {
+              top: -65px;
+              left: 84px;
+              z-index: 3;
+            }
+
+            &-03 {
+              top: 145px;
+              right: 30px;
+              z-index: 1;
+            }
+          }
+
+          .image {
+            min-height: 420px;
+            // aspect-ratio: 3 / 4;
+          }
+        }
+
+        &:nth-child(2) {
+          .thumb {
+            width: 300px;
+            height: 400px;
+          }
+        }
+
+        &:nth-child(3) {
+          .thumb {
+            width: 300px;
+            height: 388px;
+          }
+
+          .image-right {
+            .thumb {
+              margin-top: 0;
+              width: 326px;
+            }
+
+            img {
+              top: 40px;
+              left: -22px;
+            }
+          }
+        }
+
+        &:nth-child(4) {
+          align-items: flex-end;
+          .thumb {
+            width: 326px;
+            height: 420px;
+
+            img {
+              left: 66px;
+            }
+          }
+        }
+        &:last-child {
+          flex-direction: column;
+          align-items: flex-start;
+          margin-top: 150px;
+
+          .thumb {
+            width: 600px;
+            height: 400px;
+          }
+
+          .info {
+            width: 100%;
+            padding-left: 200px;
+          }
+        }
+      }
+
+      .text {
+        &-title {
+          font-family: 'Caveat', sans-serif;
+          font-size: 68px;
+          font-weight: 600;
+          color: #000;
+        }
+
+        &-desc {
+          font-size: 48px;
+          line-height: 1.2;
+          color: #000;
+          &+.text-desc {
+            margin-top: 20px;
+          }
+        }
+      }
+
+      .image {
+        display: flex;
+        position: relative;
+        flex: 1;
+
+        .thumb {
+          position: relative;
+        }
+      }
+
+      .info {
+        width: 70%;
+      }
+    }
+  }
+}

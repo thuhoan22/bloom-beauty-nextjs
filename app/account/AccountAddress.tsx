@@ -3,8 +3,10 @@
 export default function AccountAddress() {
   return (
     <>
-      <h3 className="text-title">Shipping adress </h3>
-      <div className="info-main">
+      <div className="panel-head">
+        <h3 className="text-title">Shipping adress </h3>
+      </div>
+      <div className="panel-info">
         <ul className="info-list">
           <li className="info-item info-item-col">
             <div className="col">

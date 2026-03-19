@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect  } from "react";
-import { products } from "@/data/products";
 import { useCart } from "@/context/CartContext";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
+import { getProductById } from "@/lib/product.api";
 import Image from "next/image";
 import ProductGallery from "@/components/ProductGallery";
 import RatingDisplay from "@/components/RatingDisplay";
@@ -15,48 +15,52 @@ interface ProductDetailProps {
   id: number;
 }
 
-export default function ProductDetail({ id }: ProductDetailProps) {
-  // const skinIcons: Record<string, string> = {
-  //   "All Skin Types": "/images/svg/icon-skin-all.svg",
-  // };
-
-  // const getSkinIcon = (skinType: string) =>
-  //   skinIcons[skinType] || "/images/svg/icon-skin-type.svg";
-
-  const getSkinIcon = (skinType: string) =>
-  skinType === "All Skin Types" ? "/images/svg/icon-skin-all.svg" : "/images/svg/icon-skin-type.svg";
-
-  const product = products.find((p) => p.id === id);
-
-  if (!product) return notFound();
+export default function ProductDetail() {
+  const { id } = useParams();
+  const [product, setProduct] = useState<any>(null);
 
   const { addToCart } = useCart();
-  
-  const handleAddToCart = () => {
-    addToCart(id)
-  };
 
-  // vì dùng dangerouslySetInnerHTML nên phải ép kiểu này
+  // icon skin type
+  const getSkinIcon = (skinType?: string) =>
+    skinType === "All Skin Types"
+      ? "/images/svg/icon-skin-all.svg"
+      : "/images/svg/icon-skin-type.svg";
+
+  // fetch product
   useEffect(() => {
-    const accordionButtons = document.querySelectorAll('.accordion-item .btn-text');
+    if (!id) return;
+
+    getProductById(Number(id)).then(setProduct);
+  }, [id]);
+
+  // accordion (fix cho HTML từ Supabase)
+  useEffect(() => {
+    if (!product) return;
+
+    const buttons = document.querySelectorAll(".accordion-item .btn-text");
 
     const handleClick = (e: Event) => {
-      const target = e.target as HTMLElement | null;
-      if (!target) return;
-
-      const item = target.closest('.accordion-item');
+      const target = e.target as HTMLElement;
+      const item = target.closest(".accordion-item");
       if (!item) return;
 
-      item.classList.toggle('is-open');
+      item.classList.toggle("is-open");
     };
 
-    accordionButtons.forEach(btn => btn.addEventListener('click', handleClick));
+    buttons.forEach((btn) => btn.addEventListener("click", handleClick));
 
-    // cleanup khi unmount
     return () => {
-      accordionButtons.forEach(btn => btn.removeEventListener('click', handleClick));
+      buttons.forEach((btn) => btn.removeEventListener("click", handleClick));
     };
-  }, []);
+  }, [product]);
+
+  // loading
+  if (!product) return <p>Loading...</p>;
+
+  const handleAddToCart = () => {
+    addToCart(product.id);
+  };
 
   return (
     <main className="main-content product-detail-page">
@@ -83,12 +87,12 @@ export default function ProductDetail({ id }: ProductDetailProps) {
                 <span>${product.price.toLocaleString()}</span>
               )}
             </p>
-            <p className="text-desc">{product.details.fullDesc}</p>
-            <span className="text-size">Size: {product.details.size}</span>
+            <p className="text-desc">{product.product_details.full_desc}</p>
+            <span className="text-size">Size: {product.product_details.size}</span>
             <div className="text-recommend">
               <strong>RECOMMENDED FOR</strong>
               <ul className="skin-type-list">
-                {product.details.typeSkin.map((type, index) => (
+                {(product?.details?.typeSkin ?? []).map((type: string, index: number) => (
                   <li className="skin-type-item" key={index}>
                     <Image 
                       src={getSkinIcon(type)}
@@ -108,10 +112,10 @@ export default function ProductDetail({ id }: ProductDetailProps) {
             >
               Add to cart
             </button>
-            {product.details?.moreInfo && (
+            {product.product_details?.more_info && (
               <div 
                 className="more-info"
-                dangerouslySetInnerHTML={{ __html: String(product.details.moreInfo) }}
+                dangerouslySetInnerHTML={{ __html: String(product.product_details.more_info) }}
               />
             )}
           </div>

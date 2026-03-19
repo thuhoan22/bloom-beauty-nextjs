@@ -8,8 +8,10 @@ export default function AccountPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   return (
     <>
-      <h3 className="text-title">Change password</h3>
-      <div className="info-main hidden-label">
+      <div className="panel-head">
+        <h3 className="text-title">Change password</h3>
+      </div>
+      <div className="panel-info hidden-label">
         <ul className="info-list">
           <li className={`info-item input-parent ${showOldPassword ? "is-show" : ""}`}>
             <label htmlFor="old-password" className="label">Old Password</label>

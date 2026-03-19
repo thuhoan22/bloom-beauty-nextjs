@@ -2,6 +2,8 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import toast from "react-hot-toast";
+import { addToCartAPI, getCart, updateCartItemAPI, removeCartItemAPI } from "@/lib/cart.api";
+import { getUser } from "@/lib/common.api";
 
 interface CartItem {
   id: number;
@@ -19,55 +21,70 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [user, setUser] = useState<any>(null);
 
-  // 1. Đọc từ localStorage khi component mount
+  // Lấy user từ supabase
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const stored  = localStorage.getItem("cartItems");
-      if (stored) setCartItems(JSON.parse(stored));
-    }
+    getUser().then(setUser);
   }, []);
 
-  // 2. Mỗi khi cartCount thay đổi, cập nhật localStorage
+  // Lấy user từ supabase
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    getUser().then(setUser);
+  }, []);
+
+  // Add to cart
+  const addToCart = async (id: number) => {
+    if (!user) {
+      toast.error("Please login");
+      return;
     }
-  }, [cartItems]);
 
-  // 3. Hàm thêm sản phẩm
-  const addToCart = (id: number) => {
-    const exist = cartItems.find((item) => item.id === id);
+    try {
+      await addToCartAPI(user.id, id);
 
-    if (exist) {
-      toast.success("Increased product quantity!");
-      setCartItems(prev =>
-        prev.map(item =>
-          item.id === id ? { ...item, quantity: item.quantity + 1 } : item
-        )
-      );
-    } else {
+      const updated = await getCart(user.id);
+      setCartItems(updated);
+
       toast.success("Added to cart!");
-      setCartItems(prev => [...prev, { id: id, quantity: 1 }]);
+    } catch (err) {
+      console.error(err);
+      toast.error("Add failed!");
     }
   };
 
   // Update quantity
-  const updateItemQuantity = (id: number, quantity: number) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity } : item
-      )
-    );
-    toast.success("Quantity updated!");
+  const updateItemQuantity = async (id: number, quantity: number) => {
+    if (!user) return;
+
+    try {
+      await updateCartItemAPI(user.id, id, quantity);
+
+      const updated = await getCart(user.id);
+      setCartItems(updated);
+
+      toast.success("Quantity updated!");
+    } catch (err) {
+      toast.error("Update failed!");
+    }
   };
 
   // Remove item
-  const removeFromCart = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-    toast.success("Removed from cart!");
-  };
+  const removeFromCart = async (id: number) => {
+    if (!user) return;
 
+    try {
+      await removeCartItemAPI(user.id, id);
+
+      const updated = await getCart(user.id);
+      setCartItems(updated);
+
+      toast.success("Removed from cart!");
+    } catch (err) {
+      toast.error("Remove failed!");
+    }
+  };
+  
   return (
     <CartContext.Provider value={{ 
       cartItems, 

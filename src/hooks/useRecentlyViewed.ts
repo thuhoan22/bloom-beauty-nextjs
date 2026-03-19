@@ -1,16 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 
 // Giới hạn số lượng sản phẩm lưu
 const MAX_RECENT = 4;
 
 export function useRecentlyViewed() {
   const [viewedIds, setViewedIds] = useState<number[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
 
   // Lấy danh sách sản phẩm đã xem từ localStorage
   useEffect(() => {
+    getProducts().then(setProducts);
+    
     try {
       const stored = JSON.parse(localStorage.getItem('recentlyViewed') || '[]');
       setViewedIds(stored);

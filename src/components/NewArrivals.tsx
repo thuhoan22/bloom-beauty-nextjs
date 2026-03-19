@@ -1,7 +1,9 @@
 "use client";
 
+import { useState, useEffect  } from "react";
 import Link from "next/link";
-import { products } from "@/data/products";
+// import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import ProductCard from "./ProductCard";
@@ -13,20 +15,34 @@ import "swiper/css/thumbs";
 // import "./NewArrivals.scss";
 
 export default function NewArrivals() {
-  // Lọc sản phẩm mới trong 30 ngày
+  const [products, setProducts] = useState<any[]>([]);
+
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
+
+  if (!products.length) return null;
+
+  // Tìm ngày mới nhất trong danh sách sản phẩm
+  const latestDate = products.reduce((max, p) => {
+    if (!p.createdAt) return max;
+    const date = new Date(p.createdAt);
+    return date > max ? date : max;
+  }, new Date(0));
+
+  // Mốc 30 ngày trước ngày mới nhất
+  const threshold = new Date(latestDate.getTime() - 30 * 24 * 60 * 60 * 1000); //30days, 24hours, 60minus, 60seconds, 1000milliseconds
+
+  // Lọc sản phẩm mới trong 30 ngày gần nhất
   const newArrivals = products
     .filter((p) => {
       if (!p.createdAt) return false;
-      const release = new Date(p.createdAt);
-      const now = new Date();
-      const diffDays = (now.getTime() - release.getTime()) / (1000 * 60 * 60 * 24); // 1 giây = 1000 ms; 1 phút = 60 giây; 1 giờ = 60 phút; 1 ngày = 24 giờ; → 1 ngày = 1000 * 60 * 60 * 24 = 86,400,000 ms
-      return diffDays <= 30; // sản phẩm ra mắt trong vòng 30 ngày
+      return new Date(p.createdAt) >= threshold;
     })
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     .slice(0, 8);
-  
 
-  if (newArrivals.length === 0) return null; // Không hiển thị nếu không có sản phẩm mới
+  if (!newArrivals.length) return null; // Không hiển thị nếu không có sản phẩm mới
 
   return (
     <div className="product-section new-arrivals">

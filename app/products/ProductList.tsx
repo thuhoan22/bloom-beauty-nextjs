@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 import ProductCard from "@/components/ProductCard";
 import ProductFilter from "@/components/ProductFilter";
 import Pagination from "@/components/Pagination"; 
@@ -15,6 +15,14 @@ interface FilterValues {
 }
 
 export default function ProductList() {
+  const [products, setProducts] = useState<any[]>([]);
+  useEffect(() => {
+    // fetch("/api/products")
+    //   .then(res => res.json())
+    //   .then(data => setProducts(data.data));
+    getProducts().then(setProducts);
+  }, []);
+
   //[S] Lọc:
   // Lưu filter mà user đã chọn
   const [filters, setFilters] = useState<FilterValues>({

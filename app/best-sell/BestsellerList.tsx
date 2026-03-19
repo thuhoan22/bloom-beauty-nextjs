@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 import ProductCard from "@/components/ProductCard";
 import ProductFilter from "@/components/ProductFilter";
 import Pagination from "@/components/Pagination"; 
@@ -15,34 +15,56 @@ interface FilterValues {
 }
 
 export default function BestsellerList() {
-  const bestSellers = products
-    .filter(p => p.rating >= 4.5) // chỉ lấy sp rating cao
-    .sort((a, b) => b.rating - a.rating || new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()) // sắp xếp giảm dần
-  
-  if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers
+  const [products, setProducts] = useState<any[]>([]);
 
-  //[S] Lọc:
-  // Lưu filter mà user đã chọn
   const [filters, setFilters] = useState<FilterValues>({
     productType: [],
     skinType: [],
     priceRange: null,
   });
 
-  // Tạo biến để kiểm tra có điều kiện lọc hay không
-  const isFiltered =
-    (filters.productType?.length ?? 0) > 0 ||
-    (filters.skinType?.length ?? 0) > 0 ||
-    (filters.priceRange ?? '') !== '';
+  const [sortOption, setSortOption] = useState("Default");
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9;
 
-  // Nhận filter từ ProductFilter
-  const handleApplyFilters = (newFilters: FilterValues) => {
-    console.log("Filters applied:", newFilters);
-    setFilters(newFilters);
-    setCurrentPage(1); // reset về trang đầu khi lọc
-  };
+  // fetch data
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
 
-  // Lọc sản phẩm dựa trên filters
+  // close dropdown khi click ngoài
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (!(e.target as HTMLElement).closest(".select-box")) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("click", handleClick);
+    return () => document.removeEventListener("click", handleClick);
+  }, []);
+
+  // reset page khi filter/sort
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters, sortOption]);
+
+  if (!products.length) return null;
+
+  // BEST SELLER
+  const bestSellers = products
+    .filter((p) => (p.rating ?? 0) >= 4.5) // chỉ lấy sp rating cao
+    .sort((a, b) => {
+      const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0);
+      if (ratingDiff !== 0) return ratingDiff;
+
+      const dateA = new Date(a.createdAt ?? a.created_at ?? 0).getTime();
+      const dateB = new Date(b.createdAt ?? b.created_at ?? 0).getTime();
+
+      return dateB - dateA;  // sắp xếp giảm dần
+    });
+
+  // FILTER
   const filteredProducts = bestSellers.filter((p) => {
     // Lọc theo productType
     if (filters.productType.length > 0 && !filters.productType.includes(p.category)) {
@@ -69,25 +91,11 @@ export default function BestsellerList() {
     }
     return true;
   });
-  //[E] Lọc
 
+  // SORT
+  const getFinalPrice = (p: any) =>
+    p.sale > 0 ? p.price * (1 - p.sale / 100) : p.price; // Hàm tính giá cuối cùng của 1 sản phẩm (đã áp dụng sale)
 
-  // Sắp xếp
-  const [sortOption, setSortOption] = useState("Default");
-  const [isOpen, setIsOpen] = useState(false);
-  const options = ["Default", "Low to High", "High to Low"];
-
-  useEffect(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (!(e.target as HTMLElement).closest(".select-box")) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("click", handleClick);
-    return () => document.removeEventListener("click", handleClick);
-  }, []);
-
-  const getFinalPrice = (p: any) => (p.sale > 0 ? p.price * (1 - p.sale / 100) : p.price); // Hàm tính giá cuối cùng của 1 sản phẩm (đã áp dụng sale)
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "Low to High") {
@@ -96,29 +104,36 @@ export default function BestsellerList() {
     if (sortOption === "High to Low") {
       return getFinalPrice(b) - getFinalPrice(a);
     }
-    return 0; // Default (không sort)
+    return 0;
   });
-  // [E] Sắp xếp
 
-  // Phân trang:
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [filters, sortOption]);
+  // PAGINATION
+  const totalPages = Math.ceil(
+    sortedProducts.length / itemsPerPage
+  );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
-
-  // const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
-  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
-
-  // Phân chia danh sách theo trang
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  // const currentProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage);
   const currentProducts = sortedProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
-  //[E] Phân trang
+
+   // Tạo biến để kiểm tra có điều kiện lọc hay không
+  const isFiltered =
+    filters.productType.length > 0 ||
+    filters.skinType.length > 0 ||
+    !!filters.priceRange;
+
+  const options = ["Default", "Low to High", "High to Low"];
+  
+  if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers
+
+  // Nhận filter từ ProductFilter
+  const handleApplyFilters = (newFilters: FilterValues) => {
+    console.log("Filters applied:", newFilters);
+    setFilters(newFilters);
+    setCurrentPage(1); // reset về trang đầu khi lọc
+  };
+  
 
   return (
   <main className="main-content product-page">

@@ -1,14 +1,21 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { products } from "@/data/products";
+import { getProducts } from "@/lib/product.api";
 import ProductCard from "@/components/ProductCard";
 import Pagination from "@/components/Pagination"; 
 
 import "./SearchPage.scss"
 
 export default function SearchPage() {
+  const [products, setProducts] = useState<any[]>([]);
+
+  // fetch data
+  useEffect(() => {
+    getProducts().then(setProducts);
+  }, []);
+
   const searchParams = useSearchParams();
   const keyword = searchParams.get("q")?.toLowerCase() || "";
 

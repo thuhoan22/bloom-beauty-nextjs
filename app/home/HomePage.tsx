@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { products } from "@/data/products";
 import NewArrivals from "@/components/NewArrivals";
 import BestSeller from "@/components/BestSeller";
 import OnTheBlog from "@/components/OnTheBlog";
@@ -10,7 +9,7 @@ import "./HomePage.scss";
 
 export default function Home() {
   return (
-    <main className="main">
+    <main className="main home-page">
       <div className="key-visual">
         <div className="inner">
           <div className="key-visual-content">
@@ -116,58 +115,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-    // <div className="page home-page">
-    //   <main className="main">
-    //     <div className="key-visual">
-
-    //     </div>
-    //     <div className="new-arrival"></div>
-    //     <div className="best-seller"></div>
-    //   </main>
-    //   <footer className="footer">
-    //     <a
-    //       href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/file.svg"
-    //         alt="File icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Learn
-    //     </a>
-    //     <a
-    //       href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/window.svg"
-    //         alt="Window icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Examples
-    //     </a>
-    //     <a
-    //       href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       <Image
-    //         aria-hidden
-    //         src="/globe.svg"
-    //         alt="Globe icon"
-    //         width={16}
-    //         height={16}
-    //       />
-    //       Go to nextjs.org →
-    //     </a>
-    //   </footer>
-    // </div>
   );
 }

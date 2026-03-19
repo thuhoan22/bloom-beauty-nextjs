@@ -1,22 +1,33 @@
 "use client";
 
-import { useState } from "react";
-import { blogs } from "@/data/blogs";
+import { useEffect, useState } from "react";
+import { getBlogs } from "@/lib/blog.api";
 import BlogCard from "@/components/BlogCard";
 import Pagination from "@/components/Pagination"; 
 
 import "./BlogList.scss";
 
 export default function BlogList() {
-  // Phân trang:
+  const [blogs, setBlogs] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  
+  useEffect(() => {
+    getBlogs().then(setBlogs);
+  }, []);
 
-  const totalPages = Math.ceil(blogs.length / itemsPerPage);
+  // SORT (mới → cũ)
+  const sortedBlogs = [...blogs].sort((a, b) => {
+    const dateA = new Date(a.date ?? a.created_at ?? 0).getTime();
+    const dateB = new Date(b.date ?? b.created_at ?? 0).getTime();
+    return dateB - dateA;
+  });
 
+  // Phân trang:
+  const totalPages = Math.ceil(sortedBlogs.length / itemsPerPage);
   // Phân chia danh sách theo trang
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentBlogs = blogs.slice(startIndex, startIndex + itemsPerPage);
+  const currentBlogs = sortedBlogs.slice(startIndex, startIndex + itemsPerPage);
   //[E] Phân trang
 
   return (
