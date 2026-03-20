@@ -4,6 +4,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from "react
 import toast from "react-hot-toast";
 import { addToCartAPI, getCart, updateCartItemAPI, removeCartItemAPI } from "@/lib/cart.api";
 import { getUser } from "@/lib/common.api";
+import { supabase } from "@/lib/supabase";
 
 interface CartItem {
   id: number;
@@ -25,12 +26,36 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   // Lấy user từ supabase
   useEffect(() => {
-    getUser().then(setUser);
-  }, []);
+    const loadUser = async () => {
+      const user = await getUser();
+      setUser(user);
 
-  // Lấy user từ supabase
-  useEffect(() => {
-    getUser().then(setUser);
+      if (user) {
+        const cart = await getCart(user.id);
+        setCartItems(cart);
+      }
+    };
+
+    loadUser();
+
+    // Lắng nghe login / logout
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        const currentUser = session?.user || null;
+        setUser(currentUser);
+
+        if (currentUser) {
+          const cart = await getCart(currentUser.id);
+          setCartItems(cart);
+        } else {
+          setCartItems([]);
+        }
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   // Add to cart

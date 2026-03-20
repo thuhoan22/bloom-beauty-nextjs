@@ -1,24 +1,39 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { products } from "@/data/products";
 import { getProducts } from "@/lib/product.api";
+import { getUser } from "@/lib/common.api";
+import { supabase } from '@/lib/supabase';
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
+import LoginModal from "@/components/ModalLogin";
 
 import "./Header.scss";
 
 export default function Header() {
   const [products, setProducts] = useState<any[]>([]);
+  const [user, setUser] = useState<any>(null);
+  const [openLogin, setOpenLogin] = useState(false);
   const { cartCount } = useCart();
   const pathname = usePathname();
 
   // fetch data
   useEffect(() => {
     getProducts().then(setProducts);
+    getUser().then(setUser);
+
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user || null);
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, []);
 
   const navItems = [
@@ -107,17 +122,6 @@ export default function Header() {
               </span>
               <span className="text">Search</span>
             </button>
-            <Link href="/account" className="group-action-item">
-              <span className="icon">
-                <Image
-                  src="/images/svg/icon-account.svg"
-                  alt="Acount icon"
-                  width={18}
-                  height={18}
-                />
-              </span>
-              <span className="text">ACOUNT</span>
-            </Link>
             <Link href="/cart" className="group-action-item group-action-cart">
               <span className="icon">
                 <Image
@@ -130,6 +134,26 @@ export default function Header() {
               <span className="text">CART</span>
               <span className="badge">{cartCount}</span>
             </Link>
+            {user ? (
+              <Link href="/account" className="group-action-item">
+                <span className="icon">
+                  <Image
+                    src="/images/svg/icon-account.svg"
+                    alt="Acount icon"
+                    width={18}
+                    height={18}
+                  />
+                </span>
+                <span className="text">ACOUNT</span>
+              </Link>
+            ) : (
+              <div
+                className="group-action-item"
+                onClick={() => setOpenLogin(true)}
+              >
+                <span className="text">LOGIN</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -183,6 +207,11 @@ export default function Header() {
           </div>
         </div>
       )}
+
+      <LoginModal
+        isOpen={openLogin}
+        onClose={() => setOpenLogin(false)}
+      />
     </header>
   );
 }

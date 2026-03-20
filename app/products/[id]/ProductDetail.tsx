@@ -87,8 +87,8 @@ export default function ProductDetail() {
                 <span>${product.price.toLocaleString()}</span>
               )}
             </p>
-            <p className="text-desc">{product.product_details.full_desc}</p>
-            <span className="text-size">Size: {product.product_details.size}</span>
+            <p className="text-desc">{product?.product_details?.full_desc}</p>
+            <span className="text-size">Size: {product?.product_details?.size}</span>
             <div className="text-recommend">
               <strong>RECOMMENDED FOR</strong>
               <ul className="skin-type-list">

@@ -23,19 +23,6 @@
           }
         }
 
-        .input {
-          width: 100%;
-          background: #fff;
-          border: 1px solid #DFE1E3;
-          border-radius: 4px;
-          padding: 10px;
-          font-weight: 400;
-          font-size: 16px;
-          line-height: 24px;
-          color: #383838;
-          outline: none;
-        }
-
         .label {
           font-weight: 400;
           font-size: 12px;
@@ -339,6 +326,21 @@
       &-last {
         width: 120px;
       }
+    }
+  }
+
+  .btn-logout {
+    display: block;
+    margin-top: 20px;
+    font-family: Poppins, sans-serif;
+    color: #383838;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    transition: all .2s;
+
+    &:hover {
+      color: #f5a3b7;
     }
   }
 }

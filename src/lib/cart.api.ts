@@ -1,90 +1,91 @@
 import { fetchAPI } from "./fetcher";
-
-const BASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const API_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-const headers = {
-  apikey: API_KEY,
-  Authorization: `Bearer ${API_KEY}`,
-  "Content-Type": "application/json"
-};
+import { supabase } from "@/lib/supabase";
 
 export const getCart = async (userId: string) => {
-  const carts = await fetchAPI(`carts?user_id=eq.${userId}&select=id`);
+  // 1. Lấy cart
+  const { data: cart, error: cartError } = await supabase
+    .from("carts")
+    .select("id")
+    .eq("user_id", userId)
+    .single();
 
-  if (!carts.length) return [];
+  if (cartError || !cart) {
+    console.log("No cart found");
+    return [];
+  }
 
-  const cartId = carts[0].id;
+  // 2. Lấy cart_item
+  const { data: items, error: itemError } = await supabase
+    .from("cart_items")
+    .select("*")
+    .eq("cart_id", cart.id);
 
-  const items = await fetchAPI(`
-    cart_items?cart_id=eq.${cartId}&select=*
-  `);
-
-  return items;
+  return items || [];
 };
 
 export const addToCartAPI = async (userId: string, productId: number) => {
-  // 1. lấy cart
-  let carts = await fetchAPI(`carts?user_id=eq.${userId}`);
+  // 1. tìm cart
+  const { data: carts } = await supabase
+    .from("carts")
+    .select("*")
+    .eq("user_id", userId);
 
   let cartId;
 
-  if (!carts.length) {
-    const newCart = await fetch(`${BASE_URL}/rest/v1/carts`, {
-      method: "POST",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json",
-        Prefer: "return=representation"
-      },
-      body: JSON.stringify({ user_id: userId })
-    }).then(res => res.json());
+  if (!carts || carts.length === 0) {
+    // 2. tạo cart
+    const { data: newCart, error } = await supabase
+      .from("carts")
+      .insert({ user_id: userId })
+      .select();
+
+    if (error) {
+      console.error(error);
+      throw new Error("Create cart failed");
+    }
+
+    if (!newCart || newCart.length === 0) {
+      throw new Error("Cart empty after insert");
+    }
 
     cartId = newCart[0].id;
   } else {
     cartId = carts[0].id;
   }
 
-  // 2. check item tồn tại
-  const existing = await fetchAPI(
-    `cart_items?cart_id=eq.${cartId}&product_id=eq.${productId}`
-  );
+  // 3. check item đã tồn tại chưa
+  const { data: existing } = await supabase
+    .from("cart_items")
+    .select("*")
+    .eq("cart_id", cartId)
+    .eq("product_id", productId)
+    .single();
 
-  if (existing.length) {
+  if (existing) {
     // update quantity
-    await fetch(`${BASE_URL}/rest/v1/cart_items?id=eq.${existing[0].id}`, {
-      method: "PATCH",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        quantity: existing[0].quantity + 1
-      })
-    });
+    await supabase
+      .from("cart_items")
+      .update({ quantity: existing.quantity + 1 })
+      .eq("id", existing.id);
   } else {
-    // insert
-    await fetch(`${BASE_URL}/rest/v1/cart_items`, {
-      method: "POST",
-      headers: {
-        ...headers,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        cart_id: cartId,
-        product_id: productId,
-        quantity: 1
-      })
+    // insert mới
+    await supabase.from("cart_items").insert({
+      cart_id: cartId,
+      product_id: productId,
+      quantity: 1,
     });
   }
 };
 
 export const updateCartItemAPI = async (
   userId: string,
-  productId: number,
+  id: number,
   quantity: number
 ) => {
-  // update DB
+  const { error } = await supabase
+    .from("cart_items")
+    .update({ quantity })
+    .eq("id", id);
 };
 
 export const removeCartItemAPI = async (

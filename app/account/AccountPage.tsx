@@ -1,12 +1,16 @@
 "use client"
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from 'next/image';
+import { useRouter } from "next/navigation";
+import { supabase } from '@/lib/supabase';
+import toast from 'react-hot-toast';
 import AccountContact from "./AccountContact";
 import AccountPassword from "./AccountPassword";
 import AccountAddress from "./AccountAddress";
 import AccountOrder from "./AccountOrder";
+import ModalConfirm from "@/components/ModalConfirm";
 
 import "./AccountPage.scss";
 
@@ -19,6 +23,9 @@ interface MenuItem {
 }
 
 export default function AccountPage() {
+  const router = useRouter(); 
+  const [openConfirm, setOpenConfirm] = useState(false);
+
   const menuItems: MenuItem[] = [
     { id: 1, name: "Contact information", hasSubMenu: false, subItems: [], component: AccountContact, },
     { id: 2, name: "Change password", hasSubMenu: false, subItems: [], component: AccountPassword, },
@@ -78,6 +85,18 @@ export default function AccountPage() {
     }
   };
 
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+
+    if (error) {
+      toast.error("Logout failed!");
+      return;
+    }
+
+    toast.success("Logged out!");
+    router.push("/");
+  };
+
   return (
     <main className="main-content account-page">
       <div className="inner">
@@ -132,12 +151,19 @@ export default function AccountPage() {
                 )
               ))}
             </ul>
+            <button className="btn-logout" onClick={() => setOpenConfirm(true)}>Logout</button>
           </div>
           <div className="box-sidebar-panel account-right">
             {activeComponent || <p>Chọn một mục để xem chi tiết.</p>}
           </div>
         </div>
       </div>
+
+      <ModalConfirm
+        isOpen={openConfirm}
+        onConfirm={handleLogout}
+        onCancel={() => setOpenConfirm(false)}
+      />
     </main>
   )
 }

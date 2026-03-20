@@ -6,6 +6,10 @@ interface BlogDetailProps {
 
 export default function BlogDetail({ id }: BlogDetailProps) {
   return (
-    <div>BlogDetail</div>
+    <main className="main-content blog-detail-page">
+      <div className="inner">
+        <div>BlogDetail</div>
+      </div>
+    </main>
   )
 }

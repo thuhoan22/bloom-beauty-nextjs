@@ -4,17 +4,19 @@
 }
 
 .wrap {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  height: auto;
+  height: 100%;
   background-color: #F9FAFC;
 }
 
 main {
+  flex: 1;
   padding: 80px 0;
 }
 
 .main {
-  min-height: 100svh;
   background-color: #fff;
 
   .section {
@@ -31,6 +33,12 @@ legend {
   height: 1px;
   margin: -1px;
   clip: rect(0, 0, 0, 0);
+}
+
+button {
+  background: transparent;
+  outline: none;
+  box-shadow: none;
 }
 
 .btn {
@@ -107,11 +115,24 @@ legend {
       color: #fff;
     }
 
-    &:focus,
-    &:active {
-      box-shadow: inset 2px 2px 0px #3e3e3e;
-    }
+    // &:focus,
+    // &:active {
+    //   box-shadow: inset 2px 2px 0px #3e3e3e;
+    // }
   }
+}
+
+.input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #DFE1E3;
+  border-radius: 4px;
+  padding: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #383838;
+  outline: none;
 }
 
 .product-section {
