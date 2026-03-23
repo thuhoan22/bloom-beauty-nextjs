@@ -64,11 +64,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-
-      &:not(.icon) {
-        justify-content: center;
-        margin-left: 10px;
-      }
+      justify-content: space-between;
 
       .icon {
         font-size: 0;
@@ -110,6 +106,12 @@
     &-search {
       background-color: transparent;
     }
+  }
+
+  .btn-action-login {
+    justify-content: flex-end;
+    margin-left: 10px;
+    cursor: pointer;
   }
 
   .search {

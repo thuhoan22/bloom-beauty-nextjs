@@ -7,7 +7,7 @@ export const getCart = async (userId: string) => {
     .from("carts")
     .select("id")
     .eq("user_id", userId)
-    .single();
+    .maybeSingle();
 
   if (cartError || !cart) {
     console.log("No cart found");
@@ -18,57 +18,54 @@ export const getCart = async (userId: string) => {
   const { data: items, error: itemError } = await supabase
     .from("cart_items")
     .select("*")
-    .eq("cart_id", cart.id);
+    .eq("cart_id", cart.id)
+    .order("id", { ascending: true });
 
-  return items || [];
+  return [...(items || [])];
 };
 
 export const addToCartAPI = async (userId: string, productId: number) => {
-  // 1. tìm cart
-  const { data: carts } = await supabase
+  // 1. lấy cart
+  const { data: cart } = await supabase
     .from("carts")
     .select("*")
-    .eq("user_id", userId);
+    .eq("user_id", userId)
+    .maybeSingle();
 
-  let cartId;
+  let cartId = cart?.id;
 
-  if (!carts || carts.length === 0) {
-    // 2. tạo cart
+  // 2. nếu chưa có → tạo
+  if (!cartId) {
     const { data: newCart, error } = await supabase
       .from("carts")
       .insert({ user_id: userId })
-      .select();
+      .select()
+      .single();
 
-    if (error) {
-      console.error(error);
+    if (error || !newCart) {
       throw new Error("Create cart failed");
     }
 
-    if (!newCart || newCart.length === 0) {
-      throw new Error("Cart empty after insert");
-    }
-
-    cartId = newCart[0].id;
-  } else {
-    cartId = carts[0].id;
+    cartId = newCart.id;
   }
 
-  // 3. check item đã tồn tại chưa
+  // guard
+  if (!cartId) throw new Error("Cart ID undefined");
+
+  // 3. check item
   const { data: existing } = await supabase
     .from("cart_items")
     .select("*")
     .eq("cart_id", cartId)
     .eq("product_id", productId)
-    .single();
+    .maybeSingle();
 
-  if (existing) {
-    // update quantity
+  if (existing?.id) {
     await supabase
       .from("cart_items")
       .update({ quantity: existing.quantity + 1 })
       .eq("id", existing.id);
   } else {
-    // insert mới
     await supabase.from("cart_items").insert({
       cart_id: cartId,
       product_id: productId,
@@ -86,11 +83,16 @@ export const updateCartItemAPI = async (
     .from("cart_items")
     .update({ quantity })
     .eq("id", id);
+
+  console.log("UPDATE ERROR:", error);
 };
 
 export const removeCartItemAPI = async (
   userId: string,
-  productId: number
+  id: number
 ) => {
-  // delete DB
+  await supabase
+    .from("cart_items")
+    .delete()
+    .eq("id", id);
 };

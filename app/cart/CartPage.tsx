@@ -8,11 +8,6 @@ import Image from "next/image";
 
 import "./CartPage.scss";
 
-interface CartItem {
-  id: number;
-  quantity: number;
-}
-
 export default function CartPage() {
   const [products, setProducts] = useState<any[]>([]);
   const { cartItems, updateItemQuantity, removeFromCart } = useCart();
@@ -24,13 +19,16 @@ export default function CartPage() {
 
   const cartData = cartItems
     .map((cartItem) => {
-      const product = products.find((p) => p.id === cartItem.id);
+      // const product = products.find((p) => p.id === cartItem.id);
+      const product = products.find((p) => p.id === cartItem.product_id);
 
       if (!product) return null; 
 
       return {
         ...cartItem,
         ...product,
+        cartItemId: cartItem.id,
+        product_id: cartItem.product_id,
         quantity: cartItem.quantity,
         total: product.price * cartItem.quantity,
       };
@@ -89,7 +87,7 @@ export default function CartPage() {
                           <button 
                             type="button" 
                             className="btn-counter btn-minus"
-                            onClick={() => handleDecrease(item.id, item.quantity)}
+                            onClick={() => handleDecrease(item.cartItemId, item.quantity)}
                           >
                             <span className="icon-minus"></span>
                           </button>
@@ -106,7 +104,7 @@ export default function CartPage() {
                           <button 
                             type="button" 
                             className="btn-counter btn-plus"
-                            onClick={() => handleIncrease(item.id, item.quantity)}
+                            onClick={() => handleIncrease(item.cartItemId, item.quantity)}
                           >
                             <span className="icon-plus"></span>
                           </button>
@@ -116,7 +114,7 @@ export default function CartPage() {
                       <button 
                         type="button" 
                         className="btn-remove"
-                        onClick={() => handleRemove(item.id)}
+                        onClick={() => handleRemove(item.cartItemId)}
                       >
                         <span className="icon-remove"></span>
                       </button>

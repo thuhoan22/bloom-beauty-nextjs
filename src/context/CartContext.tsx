@@ -2,18 +2,26 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import toast from "react-hot-toast";
-import { addToCartAPI, getCart, updateCartItemAPI, removeCartItemAPI } from "@/lib/cart.api";
-import { getUser } from "@/lib/common.api";
+import {
+  addToCartAPI,
+  getCart,
+  updateCartItemAPI,
+  removeCartItemAPI,
+} from "@/lib/cart.api";
 import { supabase } from "@/lib/supabase";
 
+// type chuẩn
 interface CartItem {
-  id: number;
+  id: number;          // cart_item.id
+  product_id: number;
   quantity: number;
 }
+
 interface CartContextType {
   cartItems: CartItem[];
   cartCount: number;
-  addToCart: (id: number) => void;
+  user: any;
+  addToCart: (productId: number) => void;
   updateItemQuantity: (id: number, quantity: number) => void;
   removeFromCart: (id: number) => void;
 }
@@ -23,31 +31,28 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export function CartProvider({ children }: { children: ReactNode }) {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Lấy user từ supabase
+  // 1. Load user + listen auth
   useEffect(() => {
-    const loadUser = async () => {
-      const user = await getUser();
-      setUser(user);
+    const initAuth = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      if (user) {
-        const cart = await getCart(user.id);
-        setCartItems(cart);
-      }
+      setUser(user);
+      setLoading(false);
     };
 
-    loadUser();
+    initAuth();
 
-    // Lắng nghe login / logout
     const { data: listener } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
+      (_event, session) => {
         const currentUser = session?.user || null;
         setUser(currentUser);
 
-        if (currentUser) {
-          const cart = await getCart(currentUser.id);
-          setCartItems(cart);
-        } else {
+        // chỉ clear khi logout thật
+        if (_event === "SIGNED_OUT") {
           setCartItems([]);
         }
       }
@@ -58,18 +63,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Add to cart
-  const addToCart = async (id: number) => {
+  // 2. Load cart khi user ready
+  useEffect(() => {
+    if (!user) return;
+
+    const loadCart = async () => {
+      const cart = await getCart(user.id);
+
+      setCartItems([...cart]); // clone để đảm bảo re-render
+    };
+
+    loadCart();
+  }, [user]);
+
+  // 3. Actions
+  const addToCart = async (productId: number) => {
     if (!user) {
       toast.error("Please login");
       return;
     }
 
     try {
-      await addToCartAPI(user.id, id);
+      await addToCartAPI(user.id, productId);
 
       const updated = await getCart(user.id);
-      setCartItems(updated);
+      setCartItems([...updated]);
 
       toast.success("Added to cart!");
     } catch (err) {
@@ -78,7 +96,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Update quantity
   const updateItemQuantity = async (id: number, quantity: number) => {
     if (!user) return;
 
@@ -86,15 +103,17 @@ export function CartProvider({ children }: { children: ReactNode }) {
       await updateCartItemAPI(user.id, id, quantity);
 
       const updated = await getCart(user.id);
-      setCartItems(updated);
+      console.log("UPDATED CART:", updated);
+
+      setCartItems([...updated]);
 
       toast.success("Quantity updated!");
     } catch (err) {
+      console.error(err);
       toast.error("Update failed!");
     }
   };
 
-  // Remove item
   const removeFromCart = async (id: number) => {
     if (!user) return;
 
@@ -102,22 +121,26 @@ export function CartProvider({ children }: { children: ReactNode }) {
       await removeCartItemAPI(user.id, id);
 
       const updated = await getCart(user.id);
-      setCartItems(updated);
+      setCartItems([...updated]);
 
-      toast.success("Removed from cart!");
+      toast.success("Removed!");
     } catch (err) {
+      console.error(err);
       toast.error("Remove failed!");
     }
   };
-  
+
   return (
-    <CartContext.Provider value={{ 
-      cartItems, 
-      cartCount: cartItems.reduce((sum, i) => sum + i.quantity, 0),
-      addToCart,
-      updateItemQuantity,
-      removeFromCart
-    }}>
+    <CartContext.Provider
+      value={{
+        cartItems,
+        cartCount: cartItems.reduce((sum, i) => sum + i.quantity, 0),
+        user,
+        addToCart,
+        updateItemQuantity,
+        removeFromCart,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

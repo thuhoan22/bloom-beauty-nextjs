@@ -14,6 +14,7 @@ interface Props {
 export default function ModalLogin({ isOpen, onClose } : Props) { 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showOldPassword, setShowOldPassword] = useState(false);
 
   if (!isOpen) return null;
 
@@ -47,23 +48,28 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
         </div>
         <div className="modal-content">
           <div className="modal-content-form">
-            <input
-              type="email"
-              autoComplete="one-time-code"
-              placeholder="Please enter email"
-              className="input input-email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              name="login-password"
-              autoComplete="one-time-code"
-              placeholder="Please enter password"
-              className="input input-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <div className="input-box">
+              <input
+                type="email"
+                autoComplete="one-time-code"
+                placeholder="Please enter email"
+                className="input input-email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className={`input-box ${showOldPassword ? "is-show" : ""}`}>
+              <input
+                type={showOldPassword ? "text" : "password"}
+                name="login-password"
+                autoComplete="one-time-code"
+                placeholder="Please enter password"
+                className="input input-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <span className="icon-eye" onClick={() => setShowOldPassword(prev => !prev)}></span>
+            </div>
             <button
               type="button"
               className="btn btn-secondary btn-login"

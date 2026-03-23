@@ -93,4 +93,34 @@
     background: url(../../public/images/svg/icon-close.svg) no-repeat;
     background-size: 100% auto;
   }
+
+  .input-box {
+    position: relative;
+
+    &.is-show {
+      .icon-eye {
+        background-image: url(/images/svg/icon-eye.svg);
+        &:hover {
+          background-image: url(/images/svg/icon-eye-hover.svg);
+        }
+      }
+    }
+  }
+
+  .icon-eye {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 2;
+    width: 24px;
+    height: 24px;
+    background-image: url(/images/svg/icon-eye-off.svg);
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    cursor: pointer;
+    transition: background .2s;
+    &:hover {
+      background-image: url(/images/svg/icon-eye-off-hover.svg);
+    }
+  }
 }

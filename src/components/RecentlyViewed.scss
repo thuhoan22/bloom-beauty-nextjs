@@ -2,7 +2,9 @@
   margin-top: 100px;
 
   .box-content {
+    flex-wrap: nowrap;
     margin-top: 40px;
+
     .card {
       width: 25%;
       // flex: 1;

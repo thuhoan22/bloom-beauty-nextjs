@@ -147,12 +147,13 @@ export default function Header() {
                 <span className="text">ACOUNT</span>
               </Link>
             ) : (
-              <div
-                className="group-action-item"
+              <button
+                type="button"
+                className="group-action-item btn-action-login"
                 onClick={() => setOpenLogin(true)}
               >
                 <span className="text">LOGIN</span>
-              </div>
+              </button>
             )}
           </div>
         </div>
