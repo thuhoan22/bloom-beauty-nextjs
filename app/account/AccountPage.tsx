@@ -87,6 +87,16 @@ export default function AccountPage() {
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
+    const { data } = await supabase.auth.getSession();
+
+    const token = data.session?.access_token;
+
+    await supabase
+      .from("user_sessions")
+      .update({ is_active: false })
+      .eq("session_token", token);
+
+    await supabase.auth.signOut();
 
     if (error) {
       toast.error("Logout failed!");
@@ -161,8 +171,13 @@ export default function AccountPage() {
 
       <ModalConfirm
         isOpen={openConfirm}
-        onConfirm={handleLogout}
+        textConfirm={
+          <>
+            Are you sure <br /> you want to log out?
+          </>
+        }
         onCancel={() => setOpenConfirm(false)}
+        onConfirm={handleLogout}
       />
     </main>
   )

@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
 import { getProducts } from "@/lib/product.api";
 import { getUser } from "@/lib/common.api";
 import { supabase } from '@/lib/supabase';
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
-import Image from "next/image";
 import ProductCard from "@/components/ProductCard";
 import LoginModal from "@/components/ModalLogin";
 
@@ -41,7 +41,6 @@ export default function Header() {
     { href: "/best-sell", label: "BESTSELLERS" },
     { href: "/blogs", label: "BLOG" },
     { href: "/about", label: "ABOUT US" },
-    // { href: "/cart", label: "CART" },
   ];
 
   // Search
@@ -95,6 +94,15 @@ export default function Header() {
       <div className="inner">
         <div className="header-content">
           <Link href="/" className="logo"><em>Bloom</em> Beauty</Link>
+          <button
+            type="button"
+            className="btn-gnb"
+            // onClick={(event) => { this.handleMenu(); }}
+          >
+            <span className="btn-inner">
+              <span className="bar"></span>
+            </span>
+          </button>
           <nav className="nav">
             {navItems.map((item) => (
               <Link
