@@ -13,6 +13,74 @@
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    gap: 168px;
+
+    @include respond(tabletPro) {
+      gap: 60px;
+    }
+
+    @include respond(tablet) {
+      padding-right: 72px;
+      gap: 12px;
+    }
+  }
+
+  &-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: 1;
+    gap: 40px;
+
+    @include respond(tablet) {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      position: fixed;
+      top: 0;
+      right: -250px;
+      left: auto;
+      width: 250px;
+      height: 100vh;
+      padding: 55px 20px;
+      background-color: #fff;
+      gap: 20px;
+    }
+  }
+
+  &.is-open {
+    .header-info {
+      z-index: 1000;
+      transform: translate(-100%) matrix(1, 0, 0, 1, 0, 0);
+      transition: all .2s ease-in-out;
+    }
+
+    .dimmd {
+      display: block;
+      visibility: visible;
+      transform: visibility .3 ease;
+    }
+
+    .btn-gnb {
+      right: 10px;
+      
+      &-bar {
+        height: auto;
+
+        &:before{
+          transform: rotate(45deg);
+        }
+
+        &:after {
+          top: 0;
+          transform: rotate(-45deg);
+        }
+
+        .bar {
+          display: none;
+        }
+      }
+    }
   }
 
   .logo {
@@ -21,6 +89,10 @@
     font-style: normal;
     color: #383838;
     line-height: 25px;
+
+    @include respond(tablet) {
+      font-size: 18px;
+    }
 
     &>em {
       font-style: normal;
@@ -32,24 +104,21 @@
     display: none;
     position: absolute;
     top: 50%;
-    right: 30px;
+    right: 20px;
     z-index: 1001;
-    width: 46px;
-    height: 36px;
     padding: 10px;
     transform: translateY(-50%);
 
-    // @include underDesktop {
-    //   display: block;
-    // }
+    @include respond(tablet) {
+      display: block;
+    }
 
-    .btn-inner {
-      display: inline-block;
+    &-bar {
+      display: block;
       position: relative;
       width: 26px;
       height: 16px;
-      vertical-align: top;
-
+  
       .bar {
         display: inline-block;
         position: absolute;
@@ -60,7 +129,7 @@
         background-color: #222;
         transform: translateY(-50%);
       }
-
+  
       &:before,
       &:after {
         display: inline-block;
@@ -70,9 +139,10 @@
         width: 100%;
         height: 2px;
         background-color: #222;
+        transition: all .3s;
         content: '';
       }
-
+  
       &:after {
         top: auto;
         bottom: 0;
@@ -83,6 +153,11 @@
   .nav {
     display: flex;
     gap: 40px;
+
+    @include respond(tablet) {
+      flex-direction: column;
+      gap: 20px;
+    }
 
     &-item {
       position: relative;
@@ -112,6 +187,11 @@
     display: flex;
     gap: 20px;
 
+    @include respond(tablet) {
+      flex-direction: column;
+      gap: 20px;
+    }
+
     &-item {
       display: flex;
       align-items: center;
@@ -129,6 +209,7 @@
         margin-top: 5px;
         font-size: 12px;
         font-weight: 400;
+        line-height: 18px;
         color: #383838;
         text-transform: uppercase;
       }
@@ -158,12 +239,47 @@
     &-search {
       background-color: transparent;
     }
+
+    &-account {
+      @include respond(tablet) {
+        flex-direction: row;
+        gap: 4px;
+
+        .text {
+          margin-top: 0;
+          font-size: 16px;
+        }
+      }
+    }
+
+    &-mo {
+      display: none;
+
+      @include respond(tablet) {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+    }
+
+    &:not(.group-action-mo) {
+      .group-action-search,
+      .group-action-cart {
+        @include respond(tablet) {
+          display: none;
+        }
+      }
+    }
   }
 
   .btn-action-login {
     justify-content: flex-end;
     margin-left: 10px;
     cursor: pointer;
+
+    @include respond(tablet) {
+      margin-left: 0;
+    }
   }
 
   .search {
@@ -268,9 +384,21 @@
 
   .inner {
     position: relative;
-    z-index: 99;
+    // z-index: 99;
     height: 100%;
     background-color: #fff;
+  }
+
+  .dimmd {
+    display: none;
+    visibility: hidden;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, .8);
   }
 }
 

@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["htuxlhzgnlnonaqoycvm.supabase.co"],
   },
+  sassOptions: {
+    additionalData: `@use "@/styles/mixins" as *;`,
+  },
 };
 
 export default nextConfig;

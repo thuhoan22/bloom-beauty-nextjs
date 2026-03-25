@@ -44,7 +44,8 @@ export default function Header() {
   ];
 
   // Search
-  const [isOpen, setIsOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   // const [results, setResults] = useState([]);
   const [results, setResults] = useState<Array<typeof products[number]>>([]); //Chỉ định kiểu phần tử để TypeScript biết kiểu của mảng results
   const [totalResults, setTotalResults] = useState(0);
@@ -72,13 +73,16 @@ export default function Header() {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
 
-      const clickOutsideGroupAction = !target.closest(".group-action");
-      const clickOutsideSearchItem = !target.closest(".search-item");
-      if (clickOutsideGroupAction && clickOutsideSearchItem) {
-        setIsOpen(false);
-      };
+      const isClickInside =
+        target.closest(".group-action-trigger") ||
+        target.closest(".search-item");
+
+      if (!isClickInside) {
+        setIsSearchOpen(false);
+      }
     }
     document.addEventListener("click", handleClick);
+    // document.addEventListener("mousedown", handleClick);
     return() => document.removeEventListener("click", handleClick);
   }, [])
   // [E] Search
@@ -89,86 +93,133 @@ export default function Header() {
   }
   // [E] Clear input value
 
+  const handleMenu = () => {
+    setIsMenuOpen(prev => !prev);
+  };
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+  }, [isMenuOpen]);
+
   return (
-    <header className="header">
+    <header className={`header ${isMenuOpen ? "is-open" : ""}`}>
       <div className="inner">
         <div className="header-content">
           <Link href="/" className="logo"><em>Bloom</em> Beauty</Link>
-          <button
-            type="button"
-            className="btn-gnb"
-            // onClick={(event) => { this.handleMenu(); }}
-          >
-            <span className="btn-inner">
-              <span className="bar"></span>
-            </span>
-          </button>
-          <nav className="nav">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`nav-item ${pathname == item.href ? "is-active" : ""}`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="group-action">
+          {/* Class .group-action-mo use for mobile */}
+          <div className="group-action-mo group-action-trigger">
             <button 
               type="button"
               className="group-action-item group-action-search"
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
             >
               <span className="icon">
                 <Image
                   src="/images/svg/icon-search.svg"
                   alt="Search icon"
-                  width={18}
-                  height={18}
+                  width={24}
+                  height={24}
                 />
               </span>
-              <span className="text">Search</span>
             </button>
             <Link href="/cart" className="group-action-item group-action-cart">
               <span className="icon">
                 <Image
                   src="/images/svg/icon-cart.svg"
                   alt="Acount icon"
-                  width={18}
-                  height={18}
+                  width={24}
+                  height={24}
                 />
               </span>
-              <span className="text">CART</span>
               <span className="badge">{cartCount}</span>
             </Link>
-            {user ? (
-              <Link href="/account" className="group-action-item">
+          </div>
+          <button
+            type="button"
+            className="btn-gnb"
+            onClick={handleMenu}
+          >
+            <span className="btn-gnb-bar">
+              <span className="bar"></span>
+            </span>
+          </button>
+          <div className="header-info">
+            <nav className="nav">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`nav-item ${pathname == item.href ? "is-active" : ""}`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="group-action group-action-trigger">
+              <button 
+                type="button"
+                className="group-action-item group-action-search"
+                onClick={() => setIsSearchOpen(!isSearchOpen)}
+              >
                 <span className="icon">
                   <Image
-                    src="/images/svg/icon-account.svg"
+                    src="/images/svg/icon-search.svg"
+                    alt="Search icon"
+                    width={18}
+                    height={18}
+                  />
+                </span>
+                <span className="text">Search</span>
+              </button>
+              <Link href="/cart" className="group-action-item group-action-cart">
+                <span className="icon">
+                  <Image
+                    src="/images/svg/icon-cart.svg"
                     alt="Acount icon"
                     width={18}
                     height={18}
                   />
                 </span>
-                <span className="text">ACOUNT</span>
+                <span className="text">CART</span>
+                <span className="badge">{cartCount}</span>
               </Link>
-            ) : (
-              <button
-                type="button"
-                className="group-action-item btn-action-login"
-                onClick={() => setOpenLogin(true)}
-              >
-                <span className="text">LOGIN</span>
-              </button>
-            )}
+              {user ? (
+                <Link href="/account" className="group-action-item group-action-account">
+                  <span className="icon">
+                    <Image
+                      src="/images/svg/icon-account.svg"
+                      alt="Acount icon"
+                      width={18}
+                      height={18}
+                    />
+                  </span>
+                  <span className="text">ACOUNT</span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  className="group-action-item group-action-account btn-action-login"
+                  onClick={() => {
+                    setOpenLogin(true);
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <span className="text">LOGIN</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
-      {/* {isOpen && (
+      <div className="dimmd" onClick={() => setIsMenuOpen(false)}></div>
+      {/* {isSearchOpen && (
       )} */}
-      <div className={`search-box ${isOpen ? "is-open" : ""}`}>
+      <div className={`search-box ${isSearchOpen ? "is-open" : ""}`}>
         <div className="search-item">
           <span className="icon">
             <Image
@@ -195,7 +246,7 @@ export default function Header() {
           </button>
         </div>
       </div>
-      {isOpen && results.length > 0 && (
+      {isSearchOpen && results.length > 0 && (
         <div className="search-result">
           <div className="inner">
             <div className="search-result-content">

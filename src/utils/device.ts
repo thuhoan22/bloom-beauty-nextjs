@@ -24,7 +24,6 @@ export const getDeviceInfo = () => {
   return {
     deviceName,
     deviceType,
-    browser,
     os,
   };
 };

@@ -69,14 +69,13 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
   }
 
   const saveSession = async (userId: string, token: string) => {
-    const { deviceName, deviceType, browser, os } = getDeviceInfo();
+    const { deviceName, deviceType, os } = getDeviceInfo();
 
     await supabase.from("user_sessions").insert({
       user_id: userId,
       session_token: token,
       device_name: deviceName,
       device_type: deviceType,
-      browser,
       os,
       is_active: true,
     });

@@ -1,6 +1,16 @@
 .inner {
   width: 1216px;
   margin: 0 auto;
+
+  @include respond(tabletPro) {
+    width: 100%;
+    padding: 0 40px;
+  }
+
+  @include respond(tablet) {
+    width: 100%;
+    padding: 0 20px;
+  }
 }
 
 .wrap {

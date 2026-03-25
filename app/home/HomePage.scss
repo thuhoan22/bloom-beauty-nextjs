@@ -18,6 +18,10 @@
       background-repeat: no-repeat;
       pointer-events: none;
       content: '';
+
+      @include respond(tabletPro) {
+        width: 100%;
+      }
     }
   
     &-content {
