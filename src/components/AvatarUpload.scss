@@ -1,0 +1,38 @@
+.avatar-box {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin-top: 10px;
+
+  .thumbnail {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .task {
+    display: flex;
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    z-index: 10;
+  }
+
+  .btn_edit {
+    width: 36px;
+    height: 36px;
+    background: #fff url(../../public/images/svg/icon-camera.svg) no-repeat;
+    background-size: 18px 18px;
+    background-position: center;
+    border: 1px solid #ccc;
+    border-radius: 100%;
+  }
+}

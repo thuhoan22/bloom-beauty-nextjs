@@ -137,12 +137,17 @@ button {
   background: #fff;
   border: 1px solid #DFE1E3;
   border-radius: 4px;
-  padding: 10px;
+  padding: 10px 16px;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #383838;
   outline: none;
+
+  &:disabled {
+    background: #e8e8e8;
+    pointer-events: none;
+  }
 }
 
 .product-section {

@@ -8,6 +8,7 @@ import { getUser } from "@/lib/common.api";
 import { supabase } from '@/lib/supabase';
 import { useCart } from "@/context/CartContext";
 import { usePathname } from "next/navigation";
+import { useProfile } from "@/hooks/useProfile";
 import ProductCard from "@/components/ProductCard";
 import LoginModal from "@/components/ModalLogin";
 
@@ -18,6 +19,7 @@ export default function Header() {
   const [user, setUser] = useState<any>(null);
   const [openLogin, setOpenLogin] = useState(false);
   const { cartCount } = useCart();
+  const { profile } = useProfile();
   const pathname = usePathname();
 
   // fetch data
@@ -192,6 +194,7 @@ export default function Header() {
                 <Link href="/account" className="group-action-item group-action-account">
                   <span className="icon">
                     <Image
+                      // src={profile?.avatar || "/images/svg/icon-account.svg"}
                       src="/images/svg/icon-account.svg"
                       alt="Acount icon"
                       width={18}
