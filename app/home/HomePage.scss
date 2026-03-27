@@ -79,6 +79,13 @@
         align-items: center;
         gap: 30px;
 
+        .thumb {
+          position: relative;
+          width: 598px;
+          height: 500px;
+          will-change: transform, opacity;
+        }
+
         &:nth-child(even) {
           .thumb {
             order: 1;
@@ -136,6 +143,10 @@
             width: 246px;
           }
         }
+      }
+
+      &-info {
+        flex: 1;
       }
     }
   }

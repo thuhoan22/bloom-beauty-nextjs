@@ -19,14 +19,44 @@ export default function AboutUs() {
   const thumb01Ref = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    gsap.from(".thumb-01", {
+    gsap.from([".thumb-01", ".thumb-02", ".thumb-03"], {
       scrollTrigger: {
         trigger: thumb01Ref.current,
-        start: "top 80%",
+        start: "top 90%",
       },
       opacity: 0,
-      y: 50,
+      rotateY: 90,
+      transformOrigin: "center center",
       duration: 0.8,
+      ease: "power2.out",
+      stagger: 0.3, // mỗi cái cách nhau 0.3s
+    });
+
+    const groups = gsap.utils.toArray<HTMLElement>(".item-group");
+
+    groups.forEach((group) => {
+      // const thumbs = group.querySelectorAll(".thumb");
+      const thumbs = group.querySelectorAll(
+        ".thumb:not(.thumb-01):not(.thumb-02):not(.thumb-03)"
+      );
+
+      if (!thumbs.length) return;
+
+      gsap.from(thumbs, {
+        scrollTrigger: {
+          trigger: group,
+          start: "top 90%",
+        },
+        opacity: 0,
+        // y: 60,              // bay lên nhẹ
+        // scale: 0.92,        // zoom in nhẹ
+        rotateY: 60,        // giảm độ gắt (90 → 60)
+        transformOrigin: "center center",
+        duration: 1.2,      // chậm hơn = sang hơn
+        ease: "power3.out", // mượt hơn
+        stagger: 0.25,      // delay tinh tế
+        force3D: true,
+      });
     });
   }, []);
 

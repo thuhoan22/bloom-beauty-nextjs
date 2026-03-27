@@ -1,13 +1,39 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import NewArrivals from "@/components/NewArrivals";
 import BestSeller from "@/components/BestSeller";
 import OnTheBlog from "@/components/OnTheBlog";
 import SharePost from "@/components/SharePost";
 
+gsap.registerPlugin(ScrollTrigger);
+
 import "./HomePage.scss";
 
 export default function Home() {
+  useGSAP(() => {
+    const thumbs = gsap.utils.toArray<HTMLElement>(".kits-item .thumb");
+
+    thumbs.forEach((thumb) => {
+      gsap.from(thumb, {
+        scrollTrigger: {
+          trigger: thumb,
+          start: "top 0%",
+          toggleActions: "play none none none", 
+        },
+        y: 80,          // từ dưới lên
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out",
+        immediateRender: false,
+      });
+    });
+  }, []);
+
   return (
     <main className="main home-page">
       <div className="key-visual">
@@ -52,8 +78,8 @@ export default function Home() {
                 <Image
                   src="/images/img-kit-01.png"
                   alt="Blossom Glow Kit"
-                  width={598}
-                  height={500}
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             </div>
@@ -77,8 +103,8 @@ export default function Home() {
                 <Image
                   src="/images/img-kit-02.png"
                   alt="Floral Essence Masks Sets"
-                  width={598}
-                  height={500}
+                  fill
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             </div>
