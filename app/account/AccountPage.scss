@@ -331,6 +331,23 @@
     }
   }
 
+  .noti-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 22px;
+    padding: 10px;
+    gap: 10px;
+    background: rgba(240, 154, 155, 0.1);
+    border-radius: 4px;
+
+    .text {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 21px;
+      color: #E77373;
+    }
+  }
+
   .btn-logout {
     display: block;
     margin-top: 20px;

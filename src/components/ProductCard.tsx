@@ -31,13 +31,7 @@ export default function ProductCard({ id, name, desc, price, sale, rating, image
     <div className="card">
       <div className="thumb">
         <Link href={`/products/${id}`} onClick={() => addViewed(id)}>
-          <Image
-            src={image}
-            alt={name}
-            fill
-            style={{ objectFit: "cover" }}
-            className="card-image"
-          />
+          <img src={image} alt={name} className="card-image" />
         </Link>
       </div>
       <div className="card-info">

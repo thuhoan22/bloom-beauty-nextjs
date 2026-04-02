@@ -241,14 +241,24 @@
     }
 
     &-account {
+      display: flex;
+      align-items: center;
+
       @include respond(tablet) {
         flex-direction: row;
         gap: 4px;
 
         .text {
-          margin-top: 0;
           font-size: 16px;
         }
+      }
+
+      .text {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 18px;
+        color: #383838;
+        text-transform: uppercase;
       }
     }
 
@@ -270,16 +280,32 @@
         }
       }
     }
+
+    &:has(.btn-action-login, .btn-action-signup) {
+      align-items: flex-end;
+    }
   }
 
   .btn-action-login {
     justify-content: flex-end;
     margin-left: 10px;
     cursor: pointer;
+    border: 1px solid #252525;
+    border-radius: 4px;
+    padding: 4px 8px;
 
     @include respond(tablet) {
+      justify-content: flex-start;
       margin-left: 0;
     }
+  }
+
+  .btn-action-signup {
+    justify-content: flex-end;
+    cursor: pointer;
+    border: 1px solid #252525;
+    border-radius: 4px;
+    padding: 4px 8px;
   }
 
   .search {

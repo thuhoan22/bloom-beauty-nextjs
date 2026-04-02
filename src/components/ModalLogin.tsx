@@ -18,6 +18,7 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
   const [password, setPassword] = useState("");
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const [pendingLogin, setPendingLogin] = useState<null | {
     user: any;
     session: any;
@@ -26,13 +27,16 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
   if (!isOpen) return null;
 
   const handleLogin = async () => {
+    setErrorMsg(""); // reset trước
+    
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
     if (error) {
-      toast.error(error.message);
+      // toast.error(error.message);
+      setErrorMsg("Incorrect email or password");
       return;
     }
 
@@ -141,6 +145,16 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
           </div>
           <div className="modal-content">
             <div className="modal-content-form">
+              {errorMsg && (
+                <div className='noti-box'>
+                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8.30794 0.600098C12.5646 0.600098 16.0163 4.05093 16.0163 8.30843C16.0163 12.5651 12.5646 16.0168 8.30794 16.0168C4.05044 16.0168 0.599609 12.5651 0.599609 8.30843C0.599609 4.05093 4.05044 0.600098 8.30794 0.600098Z" stroke="#E77373" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.30339 5.14526V8.82776" stroke="#E77373" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M8.30312 11.4718H8.31146" stroke="#E77373" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <p className='text'>Incorrect email or password</p>
+                </div>
+              )}
               <div className="input-box">
                 <input
                   type="email"

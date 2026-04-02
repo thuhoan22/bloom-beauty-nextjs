@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { useProfile } from "@/hooks/useProfile";
 import ProductCard from "@/components/ProductCard";
 import LoginModal from "@/components/ModalLogin";
+import SignupModal from "@/components/ModalSignup"
 
 import "./Header.scss";
 
@@ -18,6 +19,7 @@ export default function Header() {
   const [products, setProducts] = useState<any[]>([]);
   const [user, setUser] = useState<any>(null);
   const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
   const { cartCount } = useCart();
   const { profile } = useProfile();
   const pathname = usePathname();
@@ -204,16 +206,28 @@ export default function Header() {
                   <span className="text">ACOUNT</span>
                 </Link>
               ) : (
-                <button
-                  type="button"
-                  className="group-action-item group-action-account btn-action-login"
-                  onClick={() => {
-                    setOpenLogin(true);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  <span className="text">LOGIN</span>
-                </button>
+                <>
+                  <button
+                    type="button"
+                    className="group-action-account btn-action-login"
+                    onClick={() => {
+                      setOpenLogin(true);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <span className="text">SIGN IN</span>
+                  </button>
+                  <button
+                    type="button"
+                    className="group-action-account btn-action-signup"
+                    onClick={() => {
+                      setOpenSignup(true);
+                      setIsMenuOpen(false);
+                    }}
+                  >
+                    <span className="text">SIGN UP</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
@@ -275,6 +289,16 @@ export default function Header() {
         isOpen={openLogin}
         onClose={() => setOpenLogin(false)}
       />
+
+      {openSignup && (
+        <SignupModal 
+          onClose={() => setOpenSignup(false)} 
+          onSwitchToLogin={() => {
+            setOpenSignup(false);
+            setOpenLogin(true);
+          }}
+        />
+      )}
     </header>
   );
 }
