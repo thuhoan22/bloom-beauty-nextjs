@@ -3,6 +3,7 @@
 import { useState, useEffect  } from "react";
 import { getProducts } from "@/lib/product.api";
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ModalConfirm from "@/components/ModalConfirm"
@@ -14,6 +15,7 @@ export default function CartPage() {
   const [removeId, setRemoveId] = useState<number | null>(null);
   const { cartItems, updateItemQuantity, removeFromCart } = useCart();
   const { cartCount } = useCart();
+  const router = useRouter();
 
   useEffect(() => {
     getProducts().then(setProducts);
@@ -149,7 +151,13 @@ export default function CartPage() {
                       <span className="value">${total.toFixed(2)}</span>
                     </li>
                   </ul>
-                  <button type="button" className="btn btn-secondary btn-checkout">Proceed to Checkout</button>
+                  <button 
+                    type="button" 
+                    className="btn btn-secondary btn-checkout"
+                    onClick={() => router.push("/checkout")}
+                  >
+                    Proceed to Checkout
+                  </button>
                   <Link href="/products" className="btn-continue-shoping" target="_blank">Continue Shopping</Link>
                 </div>
               </div>

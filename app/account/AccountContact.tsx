@@ -97,7 +97,7 @@ export default function AccountContact() {
         <h3 className="text-title">Contact information</h3>
       </div>
       <div className="panel-info">
-        <ul className="info-list">
+        <ul className="info-list form-list">
           <li className="info-item info-item-col">
             <div className="col">
               <label htmlFor="mail" className="label">Email</label>

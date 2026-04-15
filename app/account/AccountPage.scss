@@ -1,41 +1,5 @@
 .account-page {
   .account-right {
-    .info {
-      &-list {
-        margin-bottom: 40px;
-      }
-      &-item {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        &:not(:first-child) {
-          margin-top: 20px;
-        }
-
-        &-col {
-          align-items: center;
-          flex-direction: row;
-          gap: 20px;
-
-          .col {
-            position: relative;
-            width: 50%;
-          }
-        }
-
-        .label {
-          display: block;
-          margin-bottom: 4px;
-          font-weight: 400;
-          font-size: 12px;
-          line-height: 18px;
-          text-transform: capitalize;
-          color: #B0A6BD;
-        }
-
-      }
-    }
-
     .icon-eye {
       position: absolute;
       top: 10px;

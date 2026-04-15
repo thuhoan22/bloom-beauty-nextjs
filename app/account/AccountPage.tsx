@@ -163,7 +163,7 @@ export default function AccountPage() {
             </ul>
             <button className="btn-logout" onClick={() => setOpenConfirm(true)}>Logout</button>
           </div>
-          <div className="box-sidebar-panel account-right">
+          <div className="box-panel account-right">
             {activeComponent || <p>Chọn một mục để xem chi tiết.</p>}
           </div>
         </div>

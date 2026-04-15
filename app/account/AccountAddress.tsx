@@ -7,7 +7,7 @@ export default function AccountAddress() {
         <h3 className="text-title">Shipping adress </h3>
       </div>
       <div className="panel-info">
-        <ul className="info-list">
+        <ul className="info-list form-list">
           <li className="info-item info-item-col">
             <div className="col">
               <label htmlFor="first-name" className="label">First name</label>

@@ -101,7 +101,7 @@ export default function AccountPassword() {
             <p className='text'>{error}</p>
           </div>
         )}
-        <ul className="info-list">
+        <ul className="info-list form-list">
           <li className={`info-item input-parent ${showOldPassword ? "is-show" : ""}`}>
             <label htmlFor="old-password" className="label">Old Password</label>
             <input 
