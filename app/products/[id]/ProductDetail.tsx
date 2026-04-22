@@ -2,7 +2,7 @@
 
 import { useState, useEffect  } from "react";
 import { useCart } from "@/context/CartContext";
-import { notFound, useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/product.api";
 import Image from "next/image";
 import ProductGallery from "@/components/ProductGallery";
@@ -15,8 +15,7 @@ interface ProductDetailProps {
   id: number;
 }
 
-export default function ProductDetail() {
-  const { id } = useParams();
+export default function ProductDetail({ id }: ProductDetailProps) {
   const [product, setProduct] = useState<any>(null);
 
   const { addToCart } = useCart();
@@ -31,7 +30,7 @@ export default function ProductDetail() {
   useEffect(() => {
     if (!id) return;
 
-    getProductById(Number(id)).then(setProduct);
+    getProductById(id).then(setProduct);
   }, [id]);
 
   // accordion (fix cho HTML từ Supabase)

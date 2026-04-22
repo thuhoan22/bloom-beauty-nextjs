@@ -39,7 +39,8 @@ export default function CartPage() {
     })
     .filter(Boolean);
 
-  const subtotal = cartData.reduce((sum, item) => sum + item.total, 0);
+  // const subtotal = cartData.reduce((sum, item) => sum + item.total, 0);
+  const subtotal = cartData.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const tax = subtotal * 0.08;
   const total = subtotal + tax;
 

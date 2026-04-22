@@ -1,15 +1,18 @@
 import { supabase } from "@/lib/supabase";
 
-export const getProfile = async () => {
-  const { data: userData } = await supabase.auth.getUser();
-  const user = userData.user;
+export const getProfile = async (userId?: string) => {
+  let id = userId;
+  if (!id) {
+    const { data: userData } = await supabase.auth.getUser();
+    id = userData.user?.id;
+  }
 
-  if (!user) return null;
+  if (!id) return null;
 
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", user.id)
+    .eq("id", id)
     .maybeSingle();
 
   if (error) console.log(error);

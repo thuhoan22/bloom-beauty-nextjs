@@ -11,6 +11,8 @@ import AccountPassword from "./AccountPassword";
 import AccountAddress from "./AccountAddress";
 import AccountOrder from "./AccountOrder";
 import ModalConfirm from "@/components/ModalConfirm";
+import { getProfile } from "@/lib/profile.api";
+import type { Profile } from "./AccountContact";
 
 import "./AccountPage.scss";
 
@@ -25,6 +27,8 @@ interface MenuItem {
 export default function AccountPage() {
   const router = useRouter(); 
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [cachedProfile, setCachedProfile] = useState<Profile | null>(null);
+  const [cachedUserId, setCachedUserId] = useState<string>("");
 
   const menuItems: MenuItem[] = [
     { id: 1, name: "Contact information", hasSubMenu: false, subItems: [], component: AccountContact, },
@@ -35,11 +39,11 @@ export default function AccountPage() {
       name: "Orders",
       hasSubMenu: true,
       subItems: [
-        { name: "All period", filter: "All" },
-        { name: "For this month", filter: "This month" },
-        { name: "Last this month", filter: "Last month" },
-        { name: "This year", filter: "This year" },
-        { name: "Last year", filter: "Last year" }
+        { name: "All", filter: "all" },
+        { name: "Processing", filter: "processing" },
+        { name: "Shipping", filter: "shipping" },
+        { name: "Delivered", filter: "delivered" },
+        { name: "Canceled", filter: "canceled" },
       ],
       component: null,
     },
@@ -60,8 +64,27 @@ export default function AccountPage() {
   const [activeSubItem, setActiveSubItem] = useState<{ parentId: number, name: string } | null>(null); // Lưu submenu nào đang được active (ví dụ: “This month”, “Last year”... của Orders)
   const [orderFilter, setOrderFilter] = useState<string>("all");                                       // Lưu filter hiện đang dùng cho component AccountOrder
   const [activeComponent, setActiveComponent] = useState<React.ReactNode | null>(
-    React.createElement(AccountContact)
+    <AccountContact
+      cachedProfile={cachedProfile}
+      cachedUserId={cachedUserId}
+      onCacheProfile={setCachedProfile}
+      onCacheUserId={setCachedUserId}
+    />
   );                                                                                                   // Lưu component đang được hiển thị trong phần nội dung bên phải (Mặc định là AccountContact)
+
+  useEffect(() => {
+    const loadProfileOnce = async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const user = sessionData.session?.user ?? null;
+      if (!user) return;
+
+      setCachedUserId(user.id);
+      const data = await getProfile(user.id);
+      if (data) setCachedProfile(data);
+    };
+
+    loadProfileOnce();
+  }, []);
 
   const toggleSubMenu = (id: number) => {
     setOpenSubMenu((prevState: { [key: number]: boolean }) => ({
@@ -81,7 +104,18 @@ export default function AccountPage() {
       setOpenSubMenu({}); // đóng tất cả submenu
 
       setActiveItem(id); // Nếu không có submenu, thêm class active
-      setActiveComponent(component ? React.createElement(component) : null); // Render component nếu có
+      if (component === AccountContact) {
+        setActiveComponent(
+          <AccountContact
+            cachedProfile={cachedProfile}
+            cachedUserId={cachedUserId}
+            onCacheProfile={setCachedProfile}
+            onCacheUserId={setCachedUserId}
+          />
+        );
+      } else {
+        setActiveComponent(component ? React.createElement(component) : null); // Render component nếu có
+      }
     }
   };
 

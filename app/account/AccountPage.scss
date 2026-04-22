@@ -245,33 +245,33 @@
       border-top: 1px solid #dfe1e3;
       font-family: 'Montserrat', sans-serif;
 
-      .text {
-        &-base {
+      &-left {
+        .text-base {
+          margin-bottom: 4px;
           font-weight: 400;
           font-size: 14px;
           line-height: 17px;
           color: #383838;
         }
+      }
 
-        &-other {
-          flex-direction: column;
-          gap: 10px;
+      &-right {
+        flex-direction: column;
+        gap: 10px;
 
-          .text {
-            font-weight: 400;
-            font-size: 14px;
-            line-height: 17px;
-            color: #383838;
-          }
+        .text {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 17px;
+          color: #383838;
 
           &-item {
             display: flex;
           }
 
-          &-total {
-            .text {
-              font-weight: 500;
-            }
+          &>em {
+            font-style: normal;
+            font-weight: 500;
           }
         }
       }
@@ -324,6 +324,47 @@
 
     &:hover {
       color: #f5a3b7;
+    }
+  }
+
+  .progress-steps {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &-item {
+      position: relative;
+      padding-left: 30px;
+      font-size: 14px;
+      color: #222;
+
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 30px;
+        height: 1px;
+        background-color: #222;
+        transform: translateY(-50%);
+        content: '';
+      }
+
+      &:first-child {
+        padding-left: 0;
+        &:before {
+          display: none;
+        }
+      }
+
+      &.is-done {
+        font-weight: 500;
+        color: #f5a3b7;
+
+        &:before {
+          background-color: #f5a3b7;
+        }
+      }
     }
   }
 }

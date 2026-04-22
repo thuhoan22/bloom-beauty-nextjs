@@ -4,7 +4,7 @@ import { getProfile } from "@/lib/profile.api";
 import { supabase } from "@/lib/supabase";
 import AvatarUpload from "@/components/AvatarUpload";
 
-interface Profile {
+export interface Profile {
   name: string;
   email: string;
   address: string;
@@ -12,7 +12,19 @@ interface Profile {
   avatar: string;
 };
 
-export default function AccountContact() {
+type Props = {
+  cachedProfile?: Profile | null;
+  cachedUserId?: string;
+  onCacheProfile?: (profile: Profile) => void;
+  onCacheUserId?: (userId: string) => void;
+};
+
+export default function AccountContact({
+  cachedProfile,
+  cachedUserId,
+  onCacheProfile,
+  onCacheUserId,
+}: Props) {
   const [profile, setProfile] = useState<Profile>({
     name: "",
     email: "",
@@ -22,24 +34,48 @@ export default function AccountContact() {
   });
   const [userId, setUserId] = useState<string>("");
   const [saving, setSaving] = useState(false);
+  const [loadingProfile, setLoadingProfile] = useState(true);
+
+  useEffect(() => {
+    if (cachedUserId) setUserId(cachedUserId);
+    if (cachedProfile) {
+      setProfile(cachedProfile);
+      setLoadingProfile(false);
+    }
+  }, [cachedProfile, cachedUserId]);
 
   useEffect(() => {
     const load = async () => {
-      const { data: userData } = await supabase.auth.getUser();
-      const user = userData.user;
+      if (cachedProfile && cachedUserId) return;
+
+      // getSession thường nhanh (lấy từ local storage), fallback sang getUser
+      const { data: sessionData } = await supabase.auth.getSession();
+      let user = sessionData.session?.user ?? null;
+      if (!user) {
+        const { data: userData } = await supabase.auth.getUser();
+        user = userData.user ?? null;
+      }
 
       if (user) {
         setUserId(user.id);
-        const data = await getProfile();
-        if (data) setProfile(data);
+        onCacheUserId?.(user.id);
+        const data = await getProfile(user.id);
+        if (data) {
+          setProfile(data);
+          onCacheProfile?.(data);
+        }
       }
+
+      setLoadingProfile(false);
     };
 
     load();
-  }, []);
+  }, [cachedProfile, cachedUserId, onCacheProfile, onCacheUserId]);
 
   const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile({ ...profile, [target.name]: target.value });
+    const next = { ...profile, [target.name]: target.value };
+    setProfile(next);
+    onCacheProfile?.(next);
   };
 
   const handleAvatarUpload = async (url: string) => {
@@ -55,7 +91,11 @@ export default function AccountContact() {
       return;
     }
 
-    setProfile((prev) => ({ ...prev, avatar: url }));
+    setProfile((prev) => {
+      const next = { ...prev, avatar: url };
+      onCacheProfile?.(next);
+      return next;
+    });
   };
 
   const handleSave = async () => {
@@ -82,6 +122,13 @@ export default function AccountContact() {
         return;
       }
 
+      // refresh cache from DB after save
+      const fresh = await getProfile(userId);
+      if (fresh) {
+        setProfile(fresh);
+        onCacheProfile?.(fresh);
+      }
+
       alert("Saved!");
     } catch (err) {
       console.log("Catch error:", err);
@@ -97,6 +144,7 @@ export default function AccountContact() {
         <h3 className="text-title">Contact information</h3>
       </div>
       <div className="panel-info">
+        {/* {loadingProfile && <p className="text-base">Loading profile...</p>} */}
         <ul className="info-list form-list">
           <li className="info-item info-item-col">
             <div className="col">
@@ -121,6 +169,7 @@ export default function AccountContact() {
                 value={profile.name}
                 placeholder="Name"
                 onChange={handleChange}
+                disabled={loadingProfile}
               />
             </div>
           </li>
@@ -135,6 +184,7 @@ export default function AccountContact() {
                 value={profile.address}
                 placeholder="Address"
                 onChange={handleChange}
+                disabled={loadingProfile}
               />
             </div>
             <div className="col">
@@ -147,6 +197,7 @@ export default function AccountContact() {
                 value={profile.phone}
                 placeholder="Phone" 
                 onChange={handleChange}
+                disabled={loadingProfile}
               />
             </div>
           </li>
@@ -163,7 +214,7 @@ export default function AccountContact() {
           type="button" 
           className="btn btn-secondary btn-save" 
           onClick={handleSave}
-          disabled={saving}
+          disabled={saving || loadingProfile}
         >
           {saving ? "Saving..." : "Save"}
         </button>

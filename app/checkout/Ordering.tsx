@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { createOrder } from "@/lib/order.api";
 import { getLocation } from "@/lib/location.api";
+import { supabase } from "@/lib/supabase";
 
 import "./Ordering.scss";
 
@@ -32,7 +33,7 @@ export default function Ordering() {
 
   const [provinces, setProvinces] = useState<Province[]>([]);
   const [districts, setDistricts] = useState<District[]>([]);
-  const [wards, setWards] = useState<Province[]>([]);
+  const [wards, setWards] = useState<Ward[]>([]);
 
   const [form, setForm] = useState({
     name: "",
@@ -43,15 +44,13 @@ export default function Ordering() {
     phone: "",
   });
 
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod");
+
   const [loading, setLoading] = useState(false);
 
   // Load data
   useEffect(() => {
     getLocation().then(setProvinces);
-    // getLocation().then((res) => {
-    //   console.log("LOCATION:", res);
-    //   setProvinces(res);
-    // });
   }, []);
 
   // Khi chọn Tỉnh → load Quận
@@ -79,7 +78,7 @@ export default function Ordering() {
 
     setWards(selected?.wards || []);
     setForm((prev) => ({ ...prev, ward: "" }));
-  }, [form.district]);
+  }, [form.district, districts]);
 
   // submit
   const handleSubmit = async () => {
@@ -95,15 +94,25 @@ export default function Ordering() {
     const res = await createOrder({
       customer: form,
       items: cartItems,
+      payment_method: paymentMethod,
     });
 
     if (res.success) {
-      clearCart();
       toast.success("Order placed successfully!");
+
+      await supabase
+        .from("cart_items")
+        .delete()
+        .in(
+          "product_id",
+          cartItems.map((item) => item.product_id)
+        );
+
+      clearCart(); 
       
-      // setTimeout(() => {
-      //   router.push("/products");
-      // }, 100);
+      setTimeout(() => {
+        router.push("/products");
+      }, 100);
     } else {
       toast.error("Something went wrong");
     }
@@ -218,6 +227,34 @@ export default function Ordering() {
                     setForm({ ...form, address: e.target.value })
                   }
                 />
+              </li>
+
+              <li className="info-item">
+                <span className="label">Payment method</span>
+                <div className="payment-method">
+                  <label className="payment-option">
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="cod"
+                      checked={paymentMethod === "cod"}
+                      onChange={() => setPaymentMethod("cod")}
+                    />
+                    <span className="checkbox-label">Cash on delivery (COD)</span>
+                  </label>
+
+                  <label className="payment-option" aria-disabled="true">
+                    <input
+                      type="radio"
+                      name="payment_method"
+                      value="card"
+                      checked={paymentMethod === "card"}
+                      onChange={() => setPaymentMethod("card")}
+                      disabled
+                    />
+                    <span className="checkbox-label">Card payment (coming soon)</span>
+                  </label>
+                </div>
               </li>
             </ul>
             <button 

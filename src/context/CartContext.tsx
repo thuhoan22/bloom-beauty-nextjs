@@ -12,7 +12,7 @@ import { supabase } from "@/lib/supabase";
 
 // type chuẩn
 interface CartItem {
-  id: number;          // cart_item.id
+  id: string;          // cart_item.id
   product_id: number;
   quantity: number;
 }
