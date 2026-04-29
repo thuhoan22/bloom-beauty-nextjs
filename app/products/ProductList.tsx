@@ -71,6 +71,10 @@ export default function ProductList() {
     }
     return true;
   });
+
+  // MOBILE
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
   //[E] Lọc
 
 
@@ -103,12 +107,29 @@ export default function ProductList() {
   // [E] Sắp xếp
 
   // Phân trang:
+  const [itemsPerPage, setItemsPerPage] = useState(9);
+
   useEffect(() => {
     setCurrentPage(1);
-  }, [filters, sortOption]);
+  }, [filters, sortOption, itemsPerPage]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
+  // const itemsPerPage = 9;
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(9);
+      }
+    };
+
+    handleResize(); // chạy lần đầu
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
@@ -126,7 +147,12 @@ export default function ProductList() {
     <main className="main-content product-page">
       <div className="inner">
         <div className="box-content">
-          <ProductFilter onApply={handleApplyFilters} />
+          {/* <ProductFilter onApply={handleApplyFilters} /> */}
+          <ProductFilter
+            value={filters}
+            onChange={setFilters}
+            onApply={handleApplyFilters}
+          />
           <div className="product-area">
             <div className="product-sort">
               <span className="text-total">
@@ -167,6 +193,12 @@ export default function ProductList() {
                 </div>
               </div>
             </div>
+            <button 
+              className="btn-filter-mo"
+              onClick={() => setIsFilterOpen(true)}
+            >
+              Filter
+            </button>
             <div className="product-list">
               {currentProducts.length > 0 ? (
                 currentProducts.map((item) => (
@@ -189,6 +221,33 @@ export default function ProductList() {
           </div>
         </div>
       </div>
+      {isFilterOpen && (
+        <div 
+          className="filter-overlay" 
+          onClick={() => setIsFilterOpen(false)}
+        >
+          <div 
+            className="filter-sheet"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="sheet-header">
+              <span>Filter</span>
+              <button onClick={() => setIsFilterOpen(false)}>✕</button>
+            </div>
+
+            {/* Nội dung filter */}
+            <ProductFilter
+              value={filters}
+              onChange={setFilters}
+              onApply={(f) => {
+                handleApplyFilters(f);
+                setIsFilterOpen(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

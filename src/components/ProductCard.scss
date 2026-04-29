@@ -7,6 +7,10 @@
   min-height: 540px;
   border-radius: 6px;
 
+  @include respond(tablet) {
+    width: calc((100% - 20px) / 2);
+  }
+
   &-info {
     display: flex;
     flex: 1;
@@ -14,6 +18,10 @@
     justify-content: space-between;
     padding: 20px;
     background-color: #fff;
+
+    @include respond(tablet) {
+      padding: 20px 0;
+    }
 
     .text {
       &-title {

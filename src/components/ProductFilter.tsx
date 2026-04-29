@@ -30,7 +30,15 @@ interface FilterValues {
   priceRange: string | null;
 };
 
-export default function ProductFilter({ onApply }: { onApply: (filters: FilterValues) => void }) {
+export default function ProductFilter({ 
+  value,
+  onChange,
+  onApply
+}: { 
+  value: FilterValues;
+  onChange: (filters: FilterValues) => void;
+  onApply: (filters: FilterValues) => void;
+}) {
   type CheckboxKey = keyof Pick<FilterValues, "productType" | "skinType">; //type tự động đồng bộ với interface FilterValues
 
   const [filters, setFilters] = useState<FilterValues>({
@@ -48,18 +56,21 @@ export default function ProductFilter({ onApply }: { onApply: (filters: FilterVa
   };
 
   // Handle thay đổi checkbox
+  const valueState = value;
   const handleCheckboxChange = (group: CheckboxKey, value: string, checked: boolean) => {
-    setFilters((prev) => {
-      const values = checked
-        ? [...prev[group], value]
-        : prev[group].filter((v) => v !== value);
-      return { ...prev, [group]: values };
-    });
+    const values = checked
+      ? [...valueState[group], value]
+      : valueState[group].filter((v) => v !== value);
+
+    onChange({ ...valueState, [group]: values });
   };
 
   // Handle thay đổi radio
   const handleRadioChange = (value: string) => {
-    setFilters((prev) => ({ ...prev, priceRange: value }));
+    onChange({
+      ...valueState,
+      priceRange: value,
+    });
   };
 
   return (
@@ -82,7 +93,7 @@ export default function ProductFilter({ onApply }: { onApply: (filters: FilterVa
                   {f.type === 'checkbox' &&
                     f.options.map((option) => {
                       const key = f.id as CheckboxKey;
-                      const isChecked = filters[key].includes(option);
+                      const isChecked = valueState[key].includes(option);
                       const checkboxId = `${f.id}-${option}`;
                     return (
                       <li key={option} className="filter-item">
@@ -114,7 +125,7 @@ export default function ProductFilter({ onApply }: { onApply: (filters: FilterVa
                               id={radioId}
                               name="priceRange"
                               value={option}
-                              checked={filters.priceRange === option}
+                              checked={valueState.priceRange === option}
                               onChange={() => handleRadioChange(option)}
                             />
                             <label htmlFor={radioId} className="checkbox-label">{option}</label>

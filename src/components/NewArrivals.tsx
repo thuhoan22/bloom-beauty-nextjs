@@ -52,11 +52,12 @@ export default function NewArrivals() {
           className="swiper-product-home swiper-custom"
           modules={[Navigation, Pagination]}
           spaceBetween={20}
-          slidesPerView={2}
+          slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
           breakpoints={{
-            640: { slidesPerView: 3 },
+            501: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 },
             1120: { slidesPerView: 4 },
           }}
         >

@@ -119,8 +119,10 @@ export default function Footer() {
           <div className="other-item">
             <strong className="text-title">SIGN UP FOR EMAILS</strong>
             <p className="text-desc">Stay informed, subscribe to our newsletter now!</p>
-            <input type="text" placeholder="Email" id="input-subscribe" className="input-text" />
-            <button type="button" className="btn btn-arrow btn-arrow-white btn-subscribe">Subscribe</button>
+            <div className="submit-group">
+              <input type="text" placeholder="Email" id="input-subscribe" className="input-text" />
+              <button type="button" className="btn btn-arrow btn-arrow-white btn-subscribe">Subscribe</button>
+            </div>
           </div>
         </div>
       </div>

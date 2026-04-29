@@ -4,19 +4,29 @@
     align-items: flex-start;
     padding: 40px 0;
   }
+
   .product {
     &-area {
       flex: 1;
       margin-left: 20px;
+
+      .card-info {
+        @include respond(tablet) {
+          padding: 20px 10px;
+        }
+      }
     }
+
     &-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+
       &:has(.card) {
         justify-content: flex-start;
       }
+
       .no-result {
         padding-top: 20%;
         font-size: 16px;
@@ -24,6 +34,7 @@
         color: #383838;
       }
     }
+
     &-sort {
       display: flex;
       justify-content: space-between;
@@ -125,11 +136,59 @@
       }
     }
   }
+
   .filter-area {
     min-width: 270px;
     padding: 20px 20px 32px;
     background-color: #fff;
     border-radius: 6px;
     box-shadow: 0 2px 10px 0 rgba(185, 166, 189, 0.10);
+
+    @include respond(tablet) {
+      min-width: 250px;
+    }
+
+    @include respond(tablet) {
+      display: none;
+    }
+  }
+
+  .btn-filter-mo {
+    display: none;
+
+    @include respond(phone) {
+      display: flex;
+    }
+  }
+}
+
+.filter-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 999;
+}
+
+.filter-sheet {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  background: #fff;
+  border-radius: 16px 16px 0 0;
+  padding: 20px;
+  transform: translateY(100%);
+  animation: slideUp 0.3s ease forwards;
+
+  .filter-area {
+    display: block;
+    overflow-y: scroll;
+  }
+}
+
+@keyframes slideUp {
+  to {
+    transform: translateY(0);
   }
 }

@@ -34,10 +34,11 @@ export default function OnTheBlog() {
           className="swiper-product-home swiper-custom"
           modules={[Navigation, Pagination]}
           spaceBetween={20}
-          slidesPerView={2}
+          slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
           breakpoints={{
+            501: { slidesPerView: 2 },
             1024: { slidesPerView: 3 },
           }}
         >

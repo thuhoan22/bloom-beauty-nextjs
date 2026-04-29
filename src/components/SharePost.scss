@@ -7,6 +7,10 @@
     @include respond(tablet) {
       grid-template-columns: repeat(3, 1fr);
     }
+
+    @include respond(phone) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
   &-item {
@@ -40,6 +44,10 @@
 
       .btn {
         width: 145px;
+
+        @include respond(phone) {
+          font-size: 12px;
+        }
       }
 
       .btn-see {

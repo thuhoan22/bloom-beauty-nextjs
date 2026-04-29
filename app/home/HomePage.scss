@@ -22,6 +22,10 @@
       @include respond(tabletPro) {
         width: 100%;
       }
+
+      @include respond(phone) {
+        opacity: 0.6;
+      }
     }
   
     &-content {
@@ -32,11 +36,16 @@
   
       .text {
         &-title {
-          font-size: 36px;
+          font-size: 28px;
           font-weight: 700;
           color: #383838;
-          line-height: 54px;
+          line-height: 38px;
           text-transform: uppercase;
+
+          @include respond(phone) {
+            font-size: 26px;
+            line-height: 38px;
+          }
         }
   
         &-desc {
@@ -45,12 +54,23 @@
           font-weight: 400;
           color: #383838;
           line-height: 36px;
+
+          @include respond(phone) {
+            margin-top: 16px;
+            font-size: 16px;
+            line-height: 30px;
+          }
         }
       }
   
       .btn-shop {
         width: 246px;
         margin-top: 54px;
+
+        @include respond(phone) {
+          width: 200px;
+          margin-top: 34px;
+        }
       }
     }
   }
@@ -72,12 +92,27 @@
         display: flex;
         flex-direction: column;
         gap: 60px;
+
+        @include respond(tablet) {
+          gap: 0;
+        }
       }
 
       &-item {
         display: flex;
         align-items: center;
         gap: 30px;
+
+        @include respond(tablet) {
+          flex-direction: column;
+          gap: 20px;
+
+          &:not(:first-child) {
+            margin-top: 50px;
+            padding-top: 50px;
+            border-top: 1px solid #b4b0be33;
+          }
+        }
 
         .thumb {
           position: relative;
@@ -86,8 +121,12 @@
           will-change: transform, opacity;
 
           @include respond(tablet) {
-            width: 450px;
+            width: 100%;
             height: 480px;
+          }
+
+          @include respond(phone) {
+            height: 250px;
           }
         }
 
@@ -101,17 +140,43 @@
           }
         }
 
+        &:nth-child(odd) {
+          @include respond(tablet) {
+            .thumb {
+              order: 1;
+            }
+  
+            .kits-info {
+              order: 2;
+            }
+          }
+        }
+
         .text {
           &-wrap {
             display: flex;
             flex-direction: column;
             gap: 30px;
+
+            @include respond(tablet) {
+              gap: 12px;
+            }
           }
           &-title {
             font-weight: 500;
             font-size: 36px;
             line-height: 54px;
             color: #383838;
+
+            @include respond(tablet) {
+              font-size: 25px;
+              line-height: 36px;
+            }
+
+            @include respond(phone) {
+              font-size: 18px;
+              line-height: 30px;
+            }
           }
 
           &-desc {
@@ -120,6 +185,16 @@
             font-size: 16px;
             line-height: 27px;
             color: #697586;
+
+            @include respond(tablet) {
+              font-size: 15px;
+              line-height: 20px;
+            }
+
+            @include respond(phone) {
+              font-size: 14px;
+              line-height: 20px;
+            }
           }
 
           &-tag {
@@ -130,6 +205,12 @@
             font-size: 12px;
             line-height: 30px;
             color: #383838;
+
+            @include respond(tablet) {
+              border-radius: 30px;
+              font-size: 10px;
+              line-height: 22px;
+            }
           }
         }
 
@@ -147,6 +228,21 @@
           .btn-buy {
             flex: 1;
             width: 246px;
+
+            @include respond(tablet) {
+              flex: unset;
+              width: 50%;
+            }
+
+            @include respond(phone) {
+              font-size: 12px;
+            }
+          }
+
+          .btn-arrow {
+            @include respond(phone) {
+              font-size: 12px;
+            }
           }
         }
       }
@@ -170,17 +266,29 @@
 
       .blog-info {
         padding: 12px 20px 20px;
+
+        @include respond(tablet) {
+          padding: 16px 0 20px;
+        }
       }
 
       .text {
         &-wrap {
           height: 143px;
+
+          @include respond(tablet) {
+            height: 130px;
+          }
         }
 
         &-title {
           font-size: 20px;
           font-weight: 600;
           line-height: 27px;
+
+          @include respond(phone) {
+            font-size: 18px;
+          }
         }
 
         &-desc {
@@ -190,6 +298,11 @@
           color: #383838;
           -webkit-line-clamp: 3;
           -webkit-box-orient: vertical;
+
+          @include respond(tablet) {
+            font-size: 14px;
+            line-height: 22px;
+          }
         }
       }
 
@@ -231,6 +344,10 @@
     height: 226px;
     background-color: rgba(#fee2e3, $alpha: 0.3);
     content: '';
+
+    @include respond(phone) {
+      top: 0;
+    }
   }
 
   .skin-quiz-content {
@@ -245,6 +362,10 @@
       position: relative;
       width: 307px;
       height: 322px;
+
+      @include respond(phone) {
+        display: none;
+      }
 
       &:after {
         position: absolute;
@@ -262,6 +383,11 @@
       .btn-explore {
         width: 246px;
         margin-top: 22px;
+
+        @include respond(phone) {
+          width: 100%;
+          font-size: 13px;
+        }
       }
     }
 
@@ -271,6 +397,16 @@
         font-weight: 700;
         color: #383838;
         line-height: 54px;
+
+        @include respond(tablet) {
+          font-size: 30px;
+          line-height: 46px;
+        }
+
+        @include respond(phone) {
+          font-size: 26px;
+          line-height: 32px;
+        }
       }
 
       &-desc {
@@ -281,6 +417,15 @@
         font-family: 'Montserrat', sans-serif;
         color: #697586;
         line-height: 22px;
+
+        @include respond(tablet) {
+          font-size: 16px;
+        }
+
+        @include respond(phone) {
+          font-size: 14px;
+          line-height: 20px;
+        }
       }
     }
   }

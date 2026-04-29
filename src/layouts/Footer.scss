@@ -19,18 +19,78 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
+
+      @include respond(tabletPro) {
+        gap: 50px 30px;
+        flex-wrap: wrap;
+      }
+
+      @include respond(phone) {
+        flex-wrap: wrap;
+        gap: 30px;
+      }
+
+      .submit-group {
+        @include respond(phone) {
+          display: flex;
+          align-items: center;
+          gap: 30px;
+        }
+
+        .input-text {
+          @include respond(tabletPro) {
+            width: 100%;
+          }
+  
+          @include respond(phone) {
+            width: 100%;
+          }
+        }
+      }
     }
 
     &-item {
       &:first-child {
         max-width: 225px;
+
+        @include respond(tabletPro) {
+          order: 1;
+          max-width: 300px;
+        }
+
+        @include respond(phone) {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
       }
+
       &:nth-child(2) {
         flex: 1;
         margin: 0 42px 0 84px;
+
+        @include respond(tabletPro) {
+          order: 3;
+          flex: 0 0 100%;
+          margin: 0;
+        }
+
+        @include respond(phone) {
+          display: none;
+        }
       }
+
       &:last-child {
         max-width: 289px;
+
+        @include respond(tabletPro) {
+          order: 2;
+          max-width: 500px;
+        }
+
+        @include respond(phone) {
+          width: 100%;
+          max-width: 100%;
+        }
       }
 
       .logo {
@@ -124,6 +184,10 @@
           align-items: flex-start;
           justify-content: space-between;
           gap: 36px;
+
+          @include respond(tabletPro) {
+            gap: 30px;
+          }
         }
 
         &-item {
@@ -138,6 +202,10 @@
           color: #B0A6BD;
           line-height: 24px;
           text-transform: uppercase;
+
+          @include respond(tabletPro) {
+            white-space: nowrap;
+          }
         }
 
         &-link {
@@ -148,6 +216,7 @@
           color: #fff;
           line-height: 20px;
           transition: .2s;
+
           &:hover {
             color: #F5A3B7;
           }
