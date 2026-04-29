@@ -140,7 +140,7 @@ export default function AccountOrder({ filter }: { filter: string }) {
                 {/* HEAD */}
                 <div className="order-head">
                   <p className="text-base">
-                    <em>Order No. {orderId}</em>
+                    <span>Order No. <em>{orderId}</em></span>
                     {/* {new Date(order.created_at).toLocaleString()} */}
                   </p>
 
@@ -152,7 +152,7 @@ export default function AccountOrder({ filter }: { filter: string }) {
                 </div>
 
                 {/* PROGRESS */}
-                <div className="order-progress">
+                {/* <div className="order-progress">
                   {order.status === "canceled" ? (
                     <p className="text-base">Order canceled</p>
                   ) : (
@@ -167,7 +167,7 @@ export default function AccountOrder({ filter }: { filter: string }) {
                       ))}
                     </ul>
                   )}
-                </div>
+                </div> */}
 
                 {/* ITEMS */}
                 <div className="order-content">

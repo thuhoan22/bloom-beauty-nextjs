@@ -79,7 +79,7 @@ export default function Header() {
 
       const isClickInside =
         target.closest(".group-action-trigger") ||
-        target.closest(".search-item");
+        target.closest(".input-search");
 
       if (!isClickInside) {
         setIsSearchOpen(false);

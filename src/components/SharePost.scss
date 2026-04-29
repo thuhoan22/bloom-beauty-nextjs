@@ -1,8 +1,12 @@
 .share-post {
   &-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
+
+    @include respond(tablet) {
+      grid-template-columns: repeat(3, 1fr);
+    }
   }
 
   &-item {
@@ -10,7 +14,15 @@
 
     .thumb {
       display: block;
+      width: 100%;
       font-size: 0;
+
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
 
     .btn-group {
@@ -41,7 +53,7 @@
         transition: background .2s;
 
         &:hover {
-          background-color: rgba(56, 56, 56, 0.6);
+          background-color: #383838;
         }
         
         .text {
@@ -91,10 +103,16 @@
     }
   }
 
-  .btn-box {
-    margin: 30px auto 0;
-    .btn-follow {
-      width: 246px;
+  .box-content {
+    display: block;
+
+    .btn-box {
+      margin-top: 30px;
+
+      .btn-follow {
+        width: 246px;
+        margin: 0 auto;
+      }
     }
   }
 }

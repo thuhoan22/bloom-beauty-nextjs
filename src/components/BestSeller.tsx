@@ -6,11 +6,6 @@ import { getProducts } from "@/lib/product.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import ProductCard from "./ProductCard";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
 // import "./BestSeller.scss";
 
 export default function BestSeller() {
@@ -57,7 +52,7 @@ export default function BestSeller() {
           pagination={{ clickable: true }}
           breakpoints={{
             640: { slidesPerView: 3 },
-            1024: { slidesPerView: 4 },
+            1120: { slidesPerView: 4 },
           }}
         >
           {bestSellers.map((item) => (

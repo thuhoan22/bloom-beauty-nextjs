@@ -33,7 +33,7 @@ export default function AccountPage() {
   const menuItems: MenuItem[] = [
     { id: 1, name: "Contact information", hasSubMenu: false, subItems: [], component: AccountContact, },
     { id: 2, name: "Change password", hasSubMenu: false, subItems: [], component: AccountPassword, },
-    { id: 3, name: "Addresses", hasSubMenu: false, subItems: [], component: AccountAddress, },
+    // { id: 3, name: "Addresses", hasSubMenu: false, subItems: [], component: AccountAddress, },
     {
       id: 4,
       name: "Orders",
@@ -47,16 +47,16 @@ export default function AccountPage() {
       ],
       component: null,
     },
-    {
-      id: 5,
-      name: "Wishlist",
-      hasSubMenu: true,
-      subItems: [
-        { name: "All period", filter: "all" },
-        { name: "For this month", filter: "this_month" },
-      ],
-      component: null,
-    },
+    // {
+    //   id: 5,
+    //   name: "Wishlist",
+    //   hasSubMenu: true,
+    //   subItems: [
+    //     { name: "All period", filter: "all" },
+    //     { name: "For this month", filter: "this_month" },
+    //   ],
+    //   component: null,
+    // },
   ]
   const [openSubMenu, setOpenSubMenu] = useState<{ [key: number]: boolean }>({});                      // Lưu trạng thái mở / đóng của các submenu (ví dụ: Orders, Wishlist)
   const [activeItem, setActiveItem] = useState<number | null>(1);                                      // Lưu ID của navigation-item đang active (cho các mục KHÔNG có submenu)

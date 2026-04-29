@@ -75,7 +75,7 @@ export default function ProductList() {
 
 
   // Sắp xếp
-  const [sortOption, setSortOption] = useState("Default");
+  const [sortOption, setSortOption] = useState("High to Low");
   const [isOpen, setIsOpen] = useState(false);
   const options = ["Default", "Low to High", "High to Low"];
 

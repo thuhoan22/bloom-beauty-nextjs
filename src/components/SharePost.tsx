@@ -61,12 +61,7 @@ export default function SharePost() {
           {shareImageList.map((item, index) => (
             <li className="share-post-item" key={index}>
               <span className="thumb">
-                <Image 
-                  src={item.imgUrl} 
-                  alt={item.imgInfo} 
-                  width={289}
-                  height={289}
-                />
+                <img src={item.imgUrl} alt={item.imgInfo} />
               </span>
               <div className="btn-group">
                 <Link href="#none" className="btn btn-see">

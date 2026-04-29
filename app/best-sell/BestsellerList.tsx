@@ -53,7 +53,7 @@ export default function BestsellerList() {
 
   // BEST SELLER
   const bestSellers = products
-    .filter((p) => (p.rating ?? 0) >= 4.5) // chỉ lấy sp rating cao
+    .filter((p) => (p.rating ?? 0) >= 4.8) // chỉ lấy sp rating cao
     .sort((a, b) => {
       const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0);
       if (ratingDiff !== 0) return ratingDiff;

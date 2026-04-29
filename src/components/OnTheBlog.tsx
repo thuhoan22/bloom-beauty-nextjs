@@ -6,11 +6,6 @@ import { getBlogs } from "@/lib/blog.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import BlogCard from "./BlogCard";
-
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/thumbs";
 // import "./OnTheBlog.scss";
 
 export default function OnTheBlog() {
