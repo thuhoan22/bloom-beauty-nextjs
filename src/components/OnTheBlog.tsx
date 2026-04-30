@@ -12,12 +12,10 @@ export default function OnTheBlog() {
   const [blogs, setBlogs] = useState<any[]>([]);
   
   useEffect(() => {
-    getBlogs().then(setBlogs);
+    getBlogs({ limit: 8 }).then(setBlogs);
   }, []);
 
-  const blog = blogs
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 8);
+  const blog = blogs;
 
   if (blog.length === 0) return null;
 

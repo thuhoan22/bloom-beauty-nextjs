@@ -41,12 +41,6 @@ export default function ProductFilter({
 }) {
   type CheckboxKey = keyof Pick<FilterValues, "productType" | "skinType">; //type tự động đồng bộ với interface FilterValues
 
-  const [filters, setFilters] = useState<FilterValues>({
-    productType: [],
-    skinType: [],
-    priceRange: null,
-  });
-
   // State để quản lý mở/đóng nhóm filter
   const [openGroups, setOpenGroups] = useState<string[]>(FILTERS.map(f => f.id)); // ban đầu mở hết
   const toggleGroup = (id: string) => {
@@ -139,12 +133,14 @@ export default function ProductFilter({
           );
         })}
       </div>
-      <button 
-        className="btn btn-primary btn-filter" 
-        onClick={() => onApply(filters)} // gọi callback từ cha
-      >
-        Apply
-      </button>
+      <div className="btn-filter-wrap">
+        <button 
+          className="btn btn-primary btn-filter" 
+          onClick={() => onApply(valueState)} // chỉ apply khi user bấm nút
+        >
+          Apply
+        </button>
+      </div>
     </div>
   );
 }

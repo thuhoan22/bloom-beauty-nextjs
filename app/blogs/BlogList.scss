@@ -1,3 +1,7 @@
 .blog-list {
   padding: 80px 0;
+
+  @include respond(phone) {
+    padding: 40px 0;
+  }
 }

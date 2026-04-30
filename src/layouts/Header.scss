@@ -283,6 +283,10 @@
 
     &:has(.btn-action-login, .btn-action-signup) {
       align-items: flex-end;
+
+      @include respond(tablet) {
+        align-items: flex-start;
+      }
     }
   }
 

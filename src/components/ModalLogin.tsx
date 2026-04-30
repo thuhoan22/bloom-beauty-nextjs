@@ -36,25 +36,39 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
 
     if (error) {
       // toast.error(error.message);
-      setErrorMsg("Incorrect email or password");
+      if (error.message?.toLowerCase().includes("email not confirmed")) {
+        setErrorMsg("Account is not active yet");
+      } else {
+        setErrorMsg("Incorrect email or password");
+      }
       return;
     }
 
     const user = data.user;
+    const session = data.session;
 
-    // check session
-    const { data: sessions } = await supabase
+    if (!session?.access_token) {
+      setErrorMsg("Login failed, please try again");
+      return;
+    }
+
+    // check session (count only) - faster than selecting full rows
+    const { count, error: countError } = await supabase
       .from("user_sessions")
-      .select("*")
+      .select("id", { count: "exact", head: true })
       .eq("user_id", user.id)
       .eq("is_active", true)
-      .order("created_at", { ascending: true });
+      .limit(1);
 
-    if ((sessions?.length ?? 0) >= 1) {
+    if (countError) {
+      console.error("user_sessions count error:", countError);
+    }
+
+    if ((count ?? 0) >= 1) {
       // lưu tạm login
       setPendingLogin({
         user,
-        session: data.session,
+        session,
       });
 
       // logout tạm
@@ -66,7 +80,7 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
     }
 
     // chưa vượt → lưu session luôn
-    await saveSession(user.id, data.session.access_token);
+    await saveSession(user.id, session.access_token);
 
     toast.success("Login success!");
     onClose();
@@ -88,12 +102,12 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
   const handleForceLogin = async () => {
     if (!pendingLogin) return;
 
-    const { user, session } = pendingLogin;
+    const { user } = pendingLogin;
 
     // lấy session cũ nhất
     const { data: sessions } = await supabase
       .from("user_sessions")
-      .select("*")
+      .select("id")
       .eq("user_id", user.id)
       .eq("is_active", true)
       .order("created_at", { ascending: true })
@@ -109,14 +123,14 @@ export default function ModalLogin({ isOpen, onClose } : Props) {
         .eq("id", oldest.id);
     }
 
-    // login lại
+    // login lại (ổn định hơn setSession trong một số trường hợp)
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
     });
 
-    if (error) {
-      toast.error(error.message);
+    if (error || !data.session?.access_token) {
+      toast.error(error?.message || "Login failed");
       return;
     }
 

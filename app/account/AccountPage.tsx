@@ -120,18 +120,18 @@ export default function AccountPage() {
   };
 
   const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
     const { data } = await supabase.auth.getSession();
-
     const token = data.session?.access_token;
 
-    await supabase
-      .from("user_sessions")
-      .update({ is_active: false })
-      .eq("session_token", token);
+    // mark current device session inactive (best-effort)
+    if (token) {
+      await supabase
+        .from("user_sessions")
+        .update({ is_active: false })
+        .eq("session_token", token);
+    }
 
-    await supabase.auth.signOut();
-
+    const { error } = await supabase.auth.signOut();
     if (error) {
       toast.error("Logout failed!");
       return;

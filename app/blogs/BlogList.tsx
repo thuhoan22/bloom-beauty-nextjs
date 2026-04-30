@@ -12,14 +12,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 import "./BlogList.scss";
 
-export default function BlogList() {
-  const [blogs, setBlogs] = useState<any[]>([]);
+export default function BlogList({ initialBlogs = [] }: { initialBlogs?: any[] }) {
+  const [blogs, setBlogs] = useState<any[]>(initialBlogs);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
   
   useEffect(() => {
+    // If server already provided data, skip client refetch.
+    if (initialBlogs.length > 0) return;
     getBlogs().then(setBlogs);
-  }, []);
+  }, [initialBlogs.length]);
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   useGSAP(() => {
@@ -64,8 +66,8 @@ export default function BlogList() {
 
   // SORT (mới → cũ)
   const sortedBlogs = [...blogs].sort((a, b) => {
-    const dateA = new Date(a.date ?? a.created_at ?? 0).getTime();
-    const dateB = new Date(b.date ?? b.created_at ?? 0).getTime();
+    const dateA = new Date(a.date ?? 0).getTime();
+    const dateB = new Date(b.date ?? 0).getTime();
     return dateB - dateA;
   });
 

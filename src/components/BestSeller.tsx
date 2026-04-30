@@ -2,7 +2,7 @@
 
 import { useState, useEffect  } from "react";
 import Link from "next/link";
-import { getProducts } from "@/lib/product.api";
+import { getBestSellers } from "@/lib/product.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import ProductCard from "./ProductCard";
@@ -12,24 +12,13 @@ export default function BestSeller() {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getBestSellers().then(setProducts);
   }, []);
 
   if (!products.length) return null;
 
   const bestSellers = products
-    .filter((p) => (p.rating ?? 0) >= 4.5) // chỉ lấy sp rating cao
-    .sort((a, b) => {
-      const ratingDiff = (b.rating ?? 0) - (a.rating ?? 0);
-
-      if (ratingDiff !== 0) return ratingDiff;
-
-      // fallback theo ngày
-      const dateA = new Date(a.createdAt ?? a.created_at ?? 0).getTime();
-      const dateB = new Date(b.createdAt ?? b.created_at ?? 0).getTime();
-
-      return dateB - dateA;  // sắp xếp giảm dần
-    })
+    .filter((p) => (p.rating ?? 0) >= 4.5) // giữ lại điều kiện cũ
     .slice(0, 8);
     
   if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers

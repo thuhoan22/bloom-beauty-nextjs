@@ -23,6 +23,10 @@
     width: 320px;
   }
 
+  @include respond(phone) {
+    margin: 0 20px;
+  }
+
   &-head {
     position: relative;
     padding: 40px 20px 0;
@@ -33,6 +37,11 @@
       font-size: 26px;
       line-height: 39px;
       color: #383838;
+
+      @include respond(phone) {
+        font-size: 18px;
+        line-height: 25px;
+      }
     }
 
     &-desc {
@@ -83,6 +92,10 @@
       display: flex;
       gap: 10;
       padding: 0 20px;
+
+      @include respond(phone) {
+        padding: 0;
+      }
     }
   }
 
@@ -92,6 +105,11 @@
     .modal-head-title {
       font-size: 20px;
       line-height: 30px;
+
+      @include respond(phone) {
+        font-size: 18px;
+        line-height: 25px;
+      }
     }
   }
 

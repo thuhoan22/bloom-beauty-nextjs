@@ -11,6 +11,11 @@
     width: calc((100% - 20px) / 2);
   }
 
+  @include respond(phone) {
+    width: 100%;
+    min-height: 100%;
+  }
+
   &-info {
     display: flex;
     flex: 1;
@@ -35,7 +40,11 @@
         text-transform: capitalize;
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical
+        -webkit-box-orient: vertical;
+
+        @include respond(phone) {
+          height: auto;
+        }
       }
 
       &-desc {
@@ -50,6 +59,10 @@
         text-overflow: ellipsis;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
+
+        @include respond(phone) {
+          height: auto;
+        }
       }
 
       &-price {
@@ -102,6 +115,10 @@
     position: relative;
     width: 100%;
     height: 289px;
+
+    @include respond(phone) {
+      height: 250px;
+    }
 
     &>a {
       display: block;

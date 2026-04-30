@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { getProfile } from "@/lib/profile.api";
-import { supabase } from "@/lib/supabase";
+import { supabase, getAuthUser } from "@/lib/supabase";
 import AvatarUpload from "@/components/AvatarUpload";
 
 export interface Profile {
@@ -48,13 +48,7 @@ export default function AccountContact({
     const load = async () => {
       if (cachedProfile && cachedUserId) return;
 
-      // getSession thường nhanh (lấy từ local storage), fallback sang getUser
-      const { data: sessionData } = await supabase.auth.getSession();
-      let user = sessionData.session?.user ?? null;
-      if (!user) {
-        const { data: userData } = await supabase.auth.getUser();
-        user = userData.user ?? null;
-      }
+      const user = await getAuthUser();
 
       if (user) {
         setUserId(user.id);

@@ -123,14 +123,14 @@ export default function CartPage() {
                           </div>
                         </div>
                         <span className="total-final">${item.total}</span>
-                        <button 
-                          type="button" 
-                          className="btn-remove"
-                          onClick={() => setRemoveId(item.cartItemId)}
-                        >
-                          <span className="icon-remove"></span>
-                        </button>
                       </div>
+                      <button 
+                        type="button" 
+                        className="btn-remove"
+                        onClick={() => setRemoveId(item.cartItemId)}
+                      >
+                        <span className="icon-remove"></span>
+                      </button>
                     </li>
                   ))}
                 </ul>

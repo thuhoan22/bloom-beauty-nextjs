@@ -24,8 +24,15 @@ export default function ProductList() {
   }, []);
 
   //[S] Lọc:
-  // Lưu filter mà user đã chọn
+  // Applied filters: chỉ thay đổi khi bấm Apply
   const [filters, setFilters] = useState<FilterValues>({
+    productType: [],
+    skinType: [],
+    priceRange: null,
+  });
+
+  // Draft filters: thay đổi khi click checkbox/radio (chưa áp dụng)
+  const [draftFilters, setDraftFilters] = useState<FilterValues>({
     productType: [],
     skinType: [],
     priceRange: null,
@@ -147,10 +154,9 @@ export default function ProductList() {
     <main className="main-content product-page">
       <div className="inner">
         <div className="box-content">
-          {/* <ProductFilter onApply={handleApplyFilters} /> */}
           <ProductFilter
-            value={filters}
-            onChange={setFilters}
+            value={draftFilters}
+            onChange={setDraftFilters}
             onApply={handleApplyFilters}
           />
           <div className="product-area">
@@ -164,6 +170,18 @@ export default function ProductList() {
                   <><em>{products.length}</em> PRODUCT</>
                 )}
               </span>
+              <button 
+                className="btn-filter-mo"
+                onClick={() => {
+                  setDraftFilters(filters); // mở sheet thì sync theo applied hiện tại
+                  setIsFilterOpen(true);
+                }}
+              >
+                <span className="icon">
+                  <img src="/images/svg/icon-filter.svg" alt="" />
+                </span>
+                <span className="text">Filter</span>
+              </button>
               <div className="sort-area">
                 <span className="text">Sort by</span>
                 <div className={`select-box ${isOpen ? "is-open" : ""}`}>
@@ -193,12 +211,6 @@ export default function ProductList() {
                 </div>
               </div>
             </div>
-            <button 
-              className="btn-filter-mo"
-              onClick={() => setIsFilterOpen(true)}
-            >
-              Filter
-            </button>
             <div className="product-list">
               {currentProducts.length > 0 ? (
                 currentProducts.map((item) => (
@@ -230,16 +242,31 @@ export default function ProductList() {
             className="filter-sheet"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="sheet-header">
-              <span>Filter</span>
-              <button onClick={() => setIsFilterOpen(false)}>✕</button>
+              <div className="sheet-header-text">
+                <span className="text-title">Filter</span>
+                <span className="text-total">
+                  {isFiltered ? (
+                    <>
+                      <em>{filteredProducts.length}</em> Product
+                    </>
+                  ) : (
+                    <><em>{products.length}</em> Product</>
+                  )}
+                </span>
+              </div>
+              <button 
+                className="btn-close" 
+                onClick={() => setIsFilterOpen(false)}
+              >
+                <span className="icon">
+                  <img src="/images/svg/icon-close.svg" alt="" />
+                </span>
+              </button>
             </div>
-
-            {/* Nội dung filter */}
             <ProductFilter
-              value={filters}
-              onChange={setFilters}
+              value={draftFilters}
+              onChange={setDraftFilters}
               onApply={(f) => {
                 handleApplyFilters(f);
                 setIsFilterOpen(false);

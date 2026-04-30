@@ -1,5 +1,43 @@
 .account-page {
+  .box-content-sidebar {
+    @include respond(phone) {
+      flex-direction: column;
+    }
+  }
+
+  .box-sidebar {
+    @include respond(tabletPro) {
+      width: 220px;
+      padding: 20px 20px 30px;
+    }
+
+    @include respond(phone) {
+      width: 100%;
+    }
+
+    .text-nav {
+      @include respond(tabletPro) {
+        font-size: 15px;
+      }
+    }
+
+    .navigation-item-btn {
+      @include respond(phone) {
+        justify-content: flex-start;
+      }
+    }
+  }
+  
   .account-right {
+    @include respond(tabletPro) {
+      padding: 20px 24px 40px;
+    }
+
+    @include respond(phone) {
+      width: 100%;
+    }
+
+
     .icon-eye {
       position: absolute;
       top: 10px;
@@ -90,12 +128,32 @@
       }
 
       .info {
+        flex: 1;
+
         &-name {
           font-weight: 500;
           font-size: 16px;
           line-height: 24px;
           text-transform: capitalize;
           color: #383838;
+
+          @include respond(tabletPro) {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+
+          @include respond(phone) {
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            font-size: 14px;
+            line-height: 22px;
+          }
         }
 
         &-desc {
@@ -125,8 +183,30 @@
 
       .thumb {
         display: flex;
+
+        @include respond(tabletPro) {
+          width: 90px;
+          height: 90px;
+        }
+
+        @include respond(phone) {
+          width: 80px;
+          height: 80px;
+        }
+
         img {
+          display: block;
           object-fit: cover;
+
+          @include respond(tabletPro) {
+            width: 100%;
+            height: 100%;
+          }
+
+          @include respond(phone) {
+            width: 100%;
+            height: 100%;
+          }
         }
       }
 
@@ -137,6 +217,10 @@
           flex: 1;
           gap: 10px;
           padding-right: 48px;
+
+          @include respond(tabletPro) {
+            padding-right: 20px;
+          }
         }
 
         &-right {
@@ -208,6 +292,12 @@
           line-height: 24px;
           text-transform: capitalize;
           color: #383838;
+
+          @include respond(phone) {
+            font-size: 12px;
+            line-height: 20px;
+          } 
+
           em {
             font-weight: 500;
             font-style: normal;
@@ -224,6 +314,11 @@
           font-size: 16px;
           line-height: 24px;
           text-transform: capitalize;
+
+          @include respond(phone) {
+            font-size: 14px;
+            line-height: 20px;
+          }
         }
         
         &-process {
@@ -245,7 +340,16 @@
       border-top: 1px solid #dfe1e3;
       font-family: 'Montserrat', sans-serif;
 
+      @include respond(phone) {
+        flex-direction: column;
+        gap: 20px;
+      }
+
       &-left {
+        @include respond(phone) {
+          order: 2;
+        }
+
         .text-base {
           margin-bottom: 4px;
           font-weight: 400;
@@ -259,6 +363,11 @@
         flex-direction: column;
         gap: 10px;
 
+        @include respond(phone) {
+          order: 1;
+          flex: 1;
+        }
+
         .text {
           font-weight: 400;
           font-size: 14px;
@@ -267,6 +376,20 @@
 
           &-item {
             display: flex;
+
+            @include respond(phone) {
+              justify-content: space-between;
+              
+              .text {
+                flex: auto;
+                width: auto;
+                text-align: left;
+              }
+
+              .custom-row-last {
+                text-align: right;
+              }
+            }
           }
 
           &>em {
@@ -283,6 +406,18 @@
       display: flex;
       width: 226px;
       text-align: right;
+
+      @include respond(tabletPro) {
+        width: 150px;
+      }
+
+      @include respond(phone) {
+        width: 100%;
+
+        &:not(.order-summary-right) {
+          width: 150px;
+        }
+      }
     }
 
     &-row {
@@ -291,6 +426,14 @@
       }
       &-last {
         width: 120px;
+
+        @include respond(tabletPro) {
+          width: 90px;
+        }
+
+        @include respond(phone) {
+          width: 90px;
+        }
       }
     }
   }
@@ -364,6 +507,21 @@
         &:before {
           background-color: #f5a3b7;
         }
+      }
+    }
+  }
+
+  .form-list {
+    .info-item {
+      @include respond(tablet) {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    .col {
+      @include respond(tablet) {
+        width: 100%;
       }
     }
   }

@@ -8,7 +8,7 @@ import {
   updateCartItemAPI,
   removeCartItemAPI,
 } from "@/lib/cart.api";
-import { supabase } from "@/lib/supabase";
+import { supabase, getAuthUser } from "@/lib/supabase";
 
 // type chuẩn
 interface CartItem {
@@ -37,9 +37,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   // 1. Load user + listen auth
   useEffect(() => {
     const initAuth = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
+      const user = await getAuthUser();
 
       setUser(user);
       setLoading(false);

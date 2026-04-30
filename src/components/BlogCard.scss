@@ -4,6 +4,14 @@
     align-items: center;
     gap: 30px;
 
+    @include respond(tablet) {
+      align-items: flex-start;
+    }
+
+    @include respond(phone) {
+      flex-direction: column;
+    }
+
     &:not(:first-child) {
       margin-top: 60px;
     }
@@ -11,10 +19,18 @@
     &:nth-child(even) {
       .thumb {
         order: 2;
+
+        @include respond(phone) {
+          order: 1;
+        }
       }
 
       .blog-info {
         order: 1;
+
+        @include respond(phone) {
+          order: 2;
+        }
       }
     }
 
@@ -24,6 +40,19 @@
       width: 598px;
       height: 500px;
       border-radius: 6px;
+
+      @include respond(tabletPro) {
+        width: 520px;
+      }
+
+      @include respond(tablet) {
+        width: 380px;
+        height: 360px;
+      }
+
+      @include respond(phone) {
+        width: 100%;
+      }
     }
 
     .blog-info {
@@ -31,18 +60,47 @@
 
       .text {
         &-time {
+          display: block;
+          margin-bottom: 2px;
           font-family: 'Montserrat', sans-serif;
           font-weight: 400;
           font-size: 16px;
           line-height: 25px;
           color: #B0A6BD;
+
+          @include respond(tabletPro) {
+            font-size: 15px;
+          }
+
+          @include respond(tablet) {
+            font-size: 14px;
+          }
+
+          @include respond(phone) {
+            font-size: 12px;
+          }
         }
 
         &-title {
           font-weight: 500;
           font-size: 36px;
-          line-height: 54px;
+          line-height: 50px;
           color: #383838;
+
+          @include respond(tabletPro) {
+            font-size: 30px;
+            line-height: 40px;
+          }
+
+          @include respond(tablet) {
+            font-size: 26px;
+            line-height: 34px;
+          }
+
+          @include respond(phone) {
+            font-size: 20px;
+            line-height: 30px;
+          }
         }
 
         &-desc {
@@ -53,6 +111,24 @@
           font-size: 16px;
           line-height: 27px;
           color: #697586;
+
+          @include respond(tabletPro) {
+            font-size: 14px;
+          }
+
+          @include respond(tablet) {
+            margin-top: 20px;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+          }
+
+          @include respond(phone) {
+            font-size: 14px;
+            line-height: 24px;
+          }
         }
 
         &-tag {
@@ -63,12 +139,14 @@
           font-size: 12px;
           line-height: 30px;
           color: #383838;
+          white-space: nowrap;
         }
       }
 
       .tag-group {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         margin-top: 30px;
         gap: 5px;
       }
@@ -77,6 +155,11 @@
     .btn-more {
       max-width: 246px;
       margin-top: 30px;
+
+      @include respond(phone) {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   }
 }

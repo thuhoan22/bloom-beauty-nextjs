@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase, getAuthUser } from "@/lib/supabase";
 
 export const createOrder = async (payload: {
   customer: {
@@ -16,7 +16,7 @@ export const createOrder = async (payload: {
     const { customer, items } = payload;
 
     // lấy user
-    const { data: { user }, } = await supabase.auth.getUser();
+    const user = await getAuthUser();
     if (!user?.id) return { success: false };
 
     // lấy list product id
@@ -127,9 +127,7 @@ export const createOrder = async (payload: {
 
 export const getOrders = async () => {
   try {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
+    const user = await getAuthUser();
 
     if (!user?.id) {
       return { success: false, error: "Not authenticated" as const };

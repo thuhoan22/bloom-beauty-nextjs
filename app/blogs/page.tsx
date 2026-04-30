@@ -1,5 +1,7 @@
 import BlogList from "./BlogList";
+import { getBlogs } from "@/lib/blog.api";
 
-export default function BlogPage() {
-  return <BlogList />;
+export default async function BlogPage() {
+  const initialBlogs = await getBlogs();
+  return <BlogList initialBlogs={initialBlogs} />;
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getProducts } from "@/lib/product.api";
+import { getBestSellerProducts } from "@/lib/product.api";
 import ProductCard from "@/components/ProductCard";
 import ProductFilter from "@/components/ProductFilter";
 import Pagination from "@/components/Pagination"; 
@@ -17,23 +17,37 @@ interface FilterValues {
 export default function BestsellerList() {
   const [products, setProducts] = useState<any[]>([]);
 
+  // Applied filters: chỉ thay đổi khi bấm Apply
   const [filters, setFilters] = useState<FilterValues>({
     productType: [],
     skinType: [],
     priceRange: null,
   });
 
-  const [sortOption, setSortOption] = useState("Default");
+  // Draft filters: thay đổi khi click checkbox/radio (chưa áp dụng)
+  const [draftFilters, setDraftFilters] = useState<FilterValues>({
+    productType: [],
+    skinType: [],
+    priceRange: null,
+  });
+
+  // MOBILE
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Sắp xếp
+  const [sortOption, setSortOption] = useState("High to Low");
   const [isOpen, setIsOpen] = useState(false);
+  const options = ["Default", "Low to High", "High to Low"];
+
+  // Phân trang:
+  const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9;
 
   // fetch data
   useEffect(() => {
-    getProducts().then(setProducts);
+    getBestSellerProducts().then(setProducts);
   }, []);
 
-  // close dropdown khi click ngoài
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (!(e.target as HTMLElement).closest(".select-box")) {
@@ -44,14 +58,30 @@ export default function BestsellerList() {
     return () => document.removeEventListener("click", handleClick);
   }, []);
 
-  // reset page khi filter/sort
   useEffect(() => {
     setCurrentPage(1);
-  }, [filters, sortOption]);
+  }, [filters, sortOption, itemsPerPage]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 1024) {
+        setItemsPerPage(6);
+      } else {
+        setItemsPerPage(9);
+      }
+    };
+
+    handleResize(); // chạy lần đầu
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const getFinalPrice = (p: any) => (p.sale > 0 ? p.price * (1 - p.sale / 100) : p.price); // Hàm tính giá cuối cùng của 1 sản phẩm (đã áp dụng sale)
 
   if (!products.length) return null;
 
   // BEST SELLER
+  // Data đã được query rating >= 4.8, giữ lại điều kiện và sort fallback như logic cũ.
   const bestSellers = products
     .filter((p) => (p.rating ?? 0) >= 4.8) // chỉ lấy sp rating cao
     .sort((a, b) => {
@@ -61,8 +91,16 @@ export default function BestsellerList() {
       const dateA = new Date(a.createdAt ?? a.created_at ?? 0).getTime();
       const dateB = new Date(b.createdAt ?? b.created_at ?? 0).getTime();
 
-      return dateB - dateA;  // sắp xếp giảm dần
+      return dateB - dateA; // sắp xếp giảm dần
     });
+
+  if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers
+
+  // Tạo biến để kiểm tra có điều kiện lọc hay không
+  const isFiltered =
+    (filters.productType?.length ?? 0) > 0 ||
+    (filters.skinType?.length ?? 0) > 0 ||
+    (filters.priceRange ?? "") !== "";
 
   // FILTER
   const filteredProducts = bestSellers.filter((p) => {
@@ -92,11 +130,6 @@ export default function BestsellerList() {
     return true;
   });
 
-  // SORT
-  const getFinalPrice = (p: any) =>
-    p.sale > 0 ? p.price * (1 - p.sale / 100) : p.price; // Hàm tính giá cuối cùng của 1 sản phẩm (đã áp dụng sale)
-
-
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     if (sortOption === "Low to High") {
       return getFinalPrice(a) - getFinalPrice(b);
@@ -104,28 +137,9 @@ export default function BestsellerList() {
     if (sortOption === "High to Low") {
       return getFinalPrice(b) - getFinalPrice(a);
     }
-    return 0;
+    return 0; // Default (không sort)
   });
-
-  // PAGINATION
-  const totalPages = Math.ceil(
-    sortedProducts.length / itemsPerPage
-  );
-
-  const currentProducts = sortedProducts.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-   // Tạo biến để kiểm tra có điều kiện lọc hay không
-  const isFiltered =
-    filters.productType.length > 0 ||
-    filters.skinType.length > 0 ||
-    !!filters.priceRange;
-
-  const options = ["Default", "Low to High", "High to Low"];
-  
-  if (bestSellers.length === 0) return null; // Không hiển thị nếu không có sản phẩm Best Sellers
+  // [E] Sắp xếp
 
   // Nhận filter từ ProductFilter
   const handleApplyFilters = (newFilters: FilterValues) => {
@@ -133,13 +147,22 @@ export default function BestsellerList() {
     setFilters(newFilters);
     setCurrentPage(1); // reset về trang đầu khi lọc
   };
-  
+
+  const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
+  const currentProducts = sortedProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
   return (
   <main className="main-content product-page">
     <div className="inner">
       <div className="box-content">
-        <ProductFilter onApply={handleApplyFilters} />
+        <ProductFilter
+          value={draftFilters}
+          onChange={setDraftFilters}
+          onApply={handleApplyFilters}
+        />
         <div className="product-area">
           <div className="product-sort">
             <span className="text-total">
@@ -151,6 +174,18 @@ export default function BestsellerList() {
                 <><em>{bestSellers.length}</em> PRODUCT</>
               )}
             </span>
+            <button 
+              className="btn-filter-mo"
+              onClick={() => {
+                setDraftFilters(filters); // mở sheet thì sync theo applied hiện tại
+                setIsFilterOpen(true);
+              }}
+            >
+              <span className="icon">
+                <img src="/images/svg/icon-filter.svg" alt="" />
+              </span>
+              <span className="text">Filter</span>
+            </button>
             <div className="sort-area">
               <span className="text">Sort by</span>
               <div className={`select-box ${isOpen ? "is-open" : ""}`}>
@@ -202,6 +237,48 @@ export default function BestsellerList() {
         </div>
       </div>
     </div>
+    {isFilterOpen && (
+      <div 
+        className="filter-overlay" 
+        onClick={() => setIsFilterOpen(false)}
+      >
+        <div 
+          className="filter-sheet"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="sheet-header">
+            <div className="sheet-header-text">
+              <span className="text-title">Filter</span>
+              <span className="text-total">
+                {isFiltered ? (
+                  <>
+                    <em>{filteredProducts.length}</em> Product
+                  </>
+                ) : (
+                  <><em>{bestSellers.length}</em> Product</>
+                )}
+              </span>
+            </div>
+            <button 
+              className="btn-close" 
+              onClick={() => setIsFilterOpen(false)}
+            >
+              <span className="icon">
+                <img src="/images/svg/icon-close.svg" alt="" />
+              </span>
+            </button>
+          </div>
+          <ProductFilter
+            value={draftFilters}
+            onChange={setDraftFilters}
+            onApply={(f) => {
+              handleApplyFilters(f);
+              setIsFilterOpen(false);
+            }}
+          />
+        </div>
+      </div>
+    )}
   </main>
   )
 }

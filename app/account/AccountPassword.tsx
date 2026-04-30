@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { supabase } from "@/lib/supabase";
+import { supabase, getAuthUser } from "@/lib/supabase";
 import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 
@@ -35,7 +35,7 @@ export default function AccountPassword() {
       setLoading(true);
 
       // lay email user hien tai
-      const { data: { user }} = await supabase.auth.getUser();
+      const user = await getAuthUser();
 
       if(!user?.email) {
         setError("User not found");

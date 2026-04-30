@@ -1,10 +1,10 @@
-import { supabase } from "@/lib/supabase";
+import { supabase, getAuthUser } from "@/lib/supabase";
 
 export const getProfile = async (userId?: string) => {
   let id = userId;
   if (!id) {
-    const { data: userData } = await supabase.auth.getUser();
-    id = userData.user?.id;
+    const user = await getAuthUser();
+    id = user?.id;
   }
 
   if (!id) return null;

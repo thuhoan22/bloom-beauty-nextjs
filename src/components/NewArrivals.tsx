@@ -3,7 +3,7 @@
 import { useState, useEffect  } from "react";
 import Link from "next/link";
 // import { products } from "@/data/products";
-import { getProducts } from "@/lib/product.api";
+import { getNewArrivalsProducts } from "@/lib/product.api";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination } from "swiper/modules";
 import ProductCard from "./ProductCard";
@@ -13,29 +13,12 @@ export default function NewArrivals() {
   const [products, setProducts] = useState<any[]>([]);
 
   useEffect(() => {
-    getProducts().then(setProducts);
+    getNewArrivalsProducts(8).then(setProducts);
   }, []);
 
   if (!products.length) return null;
 
-  // Tìm ngày mới nhất trong danh sách sản phẩm
-  const latestDate = products.reduce((max, p) => {
-    if (!p.createdAt) return max;
-    const date = new Date(p.createdAt);
-    return date > max ? date : max;
-  }, new Date(0));
-
-  // Mốc 30 ngày trước ngày mới nhất
-  const threshold = new Date(latestDate.getTime() - 30 * 24 * 60 * 60 * 1000); //30days, 24hours, 60minus, 60seconds, 1000milliseconds
-
-  // Lọc sản phẩm mới trong 30 ngày gần nhất
-  const newArrivals = products
-    .filter((p) => {
-      if (!p.createdAt) return false;
-      return new Date(p.createdAt) >= threshold;
-    })
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 8);
+  const newArrivals = products;
 
   if (!newArrivals.length) return null; // Không hiển thị nếu không có sản phẩm mới
 

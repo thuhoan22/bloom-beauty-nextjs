@@ -193,7 +193,11 @@ export default function Header() {
                 <span className="badge">{cartCount}</span>
               </Link>
               {user ? (
-                <Link href="/account" className="group-action-item group-action-account">
+                <Link
+                  href="/account"
+                  className="group-action-item group-action-account"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   <span className="icon">
                     <Image
                       // src={profile?.avatar || "/images/svg/icon-account.svg"}
