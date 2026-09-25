@@ -36,8 +36,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-
-
+## create .env
+NEXT_PUBLIC_SUPABASE_URL=https://htuxlhzgnlnonaqoycvm.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imh0dXhsaHpnbmxub25hcW95Y3ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3OTI0MTEsImV4cCI6MjA4OTM2ODQxMX0.KPhpc39D_olxpknU8gbAfeTFzRBg-FrGNq2n_gR2irM
 
 
 
