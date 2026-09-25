@@ -5,22 +5,40 @@
       display: flex;
       align-items: flex-start;
       padding: 60px 0;
+
+      @include respond(phone) {
+        flex-direction: column;
+        padding-top: 20px;
+      }
     }
 
     &-thumb {
       position: relative;
       width: 495px;
+
+      @include respond(phone) {
+        width: 100%;
+      }
     }
 
     &-info {
       flex: 1;
       margin-left: 123px;
 
+      @include respond(phone) {
+        margin: 40px 0 0;
+      }
+
       .text {
         &-title {
           font-size: 22px;
           font-weight: 500;
           color: #383838;
+
+          @include respond(phone) {
+            font-size: 20px;
+            line-height: 27px;
+          }
         }
 
         &-desc {
@@ -65,6 +83,10 @@
       .btn-add {
         width: 245px;
         margin-top: 30px;
+
+        @include respond(phone) {
+          width: 100%;
+        }
       }
     }
   }
@@ -200,6 +222,15 @@
           }
         }
       }
+    }
+  }
+
+  .breadcrumb {
+    display: none;
+    padding-top: 30px;
+
+    @include respond(phone) {
+      display: flex;
     }
   }
 }

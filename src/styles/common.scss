@@ -504,3 +504,36 @@ button {
     margin-top: 30px;
   }
 }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+
+  &-item {
+    padding-left: 10px;
+    font-size: 16px;
+    line-height: 28px;
+
+    &:first-child {
+      position: relative;
+      padding-left: 0;
+      
+      &:after {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        width: 20px;
+        height: 20px;
+        background: url(/images/svg/icon-arrow-down.svg) no-repeat;
+        background-size: 100% auto;
+        transform: translateY(-50%)  rotate(-90deg);
+        content: '';
+      }
+    }
+
+    .link {
+      padding-right: 26px;
+      color: #697586;
+    }
+  }
+}

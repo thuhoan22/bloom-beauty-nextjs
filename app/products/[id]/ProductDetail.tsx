@@ -5,6 +5,7 @@ import { useCart } from "@/context/CartContext";
 import { notFound } from "next/navigation";
 import { getProductById } from "@/lib/product.api";
 import Image from "next/image";
+import Link from "next/link";
 import ProductGallery from "@/components/ProductGallery";
 import RatingDisplay from "@/components/RatingDisplay";
 import RecentlyViewed from "@/components/RecentlyViewed";
@@ -64,6 +65,16 @@ export default function ProductDetail({ id }: ProductDetailProps) {
   return (
     <main className="main-content product-detail-page">
       <div className="inner">
+        <ul className="breadcrumb">
+          <li className="breadcrumb-item prev-page">
+            <Link href="/products" className="link">
+              <span className="text">Shop all</span>
+            </Link>
+          </li>
+          <li className="breadcrumb-item current-page">
+            <span>Product detail</span>
+          </li>
+        </ul>
         <div className="detail-wrap">
           <div className="detail-thumb">
             {/* <ProductGallery images={product.images ?? []} alt={product.name} /> */}

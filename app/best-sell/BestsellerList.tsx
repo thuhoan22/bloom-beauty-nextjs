@@ -76,6 +76,13 @@ export default function BestsellerList() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
+  }, [currentPage]);
+
   const getFinalPrice = (p: any) => (p.sale > 0 ? p.price * (1 - p.sale / 100) : p.price); // Hàm tính giá cuối cùng của 1 sản phẩm (đã áp dụng sale)
 
   if (!products.length) return null;

@@ -138,6 +138,13 @@ export default function ProductList() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
+  }, [currentPage]);
+
   // const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const totalPages = Math.ceil(sortedProducts.length / itemsPerPage);
 
